@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Планирование и дизайн игры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b1120 0%, #19233c 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+        }
+
+        .top-nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #eef4ff;
+            letter-spacing: -0.02em;
+        }
+
+        .top-nav .logo span {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .top-nav .links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .top-nav .links a {
+            color: #9bb1e0;
+            text-decoration: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .top-nav .links a:hover {
+            background: rgba(100, 150, 255, 0.15);
+            border-color: rgba(130, 170, 255, 0.3);
+            color: #d6e2ff;
+        }
+
+        .top-nav .links a.active {
+            background: rgba(100, 150, 255, 0.2);
+            border-color: #7f9cf5;
+            color: #f0f4ff;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            padding: 2.5rem 2.5rem 2.5rem;
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #f0f4ff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: #8aa0d0;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        /* --- Два столбца: подсказки + форма --- */
+        .spec-layout {
+            display: grid;
+            grid-template-columns: 1fr 1.6fr;
+            gap: 2rem;
+        }
+
+        .tips {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .tip-card {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.2s;
+        }
+
+        .tip-card:hover {
+            background: rgba(32, 48, 80, 0.6);
+            border-color: rgba(130, 170, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .tip-card .emoji {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.2rem;
+        }
+
+        .tip-card h4 {
+            color: #eef4ff;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .tip-card p {
+            color: #b6c8f0;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            opacity: 0.85;
+        }
+
+        .tip-card .example {
+            margin-top: 0.4rem;
+            padding: 0.3rem 0.7rem;
+            background: rgba(100, 150, 255, 0.06);
+            border-radius: 0.5rem;
+            color: #9bb1e0;
+            font-size: 0.82rem;
+            border-left: 2px solid #4f72b0;
+        }
+
+        /* --- Форма спецификации --- */
+        .spec-form {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.8rem;
+            padding: 1.8rem 1.8rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+
+        .spec-form h2 {
+            color: #eef4ff;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+        }
+
+        .form-group label {
+            display: block;
+            color: #b6c8f0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            margin-bottom: 0.3rem;
+        }
+
+        .form-group label .hint {
+            color: #5b72a3;
+            font-weight: 400;
+            font-size: 0.8rem;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 0.6rem 0.9rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.8rem;
+            color: #eef4ff;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #7f9cf5;
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.1);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 70px;
+            font-family: inherit;
+        }
+
+        .form-group select option {
+            background: #19233c;
+            color: #eef4ff;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4f72b0, #2a4bb0);
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.7rem 2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(50, 90, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            width: 100%;
+            margin-top: 0.5rem;
+        }
+
+        .btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(50, 90, 255, 0.35);
+            background: linear-gradient(135deg, #5a7ec9, #3455c4);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            box-shadow: none;
+            margin-top: 0.3rem;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: none;
+        }
+
+        /* --- Результат --- */
+        .spec-result {
+            margin-top: 1.2rem;
+            padding: 1rem 1.2rem;
+            background: rgba(60, 100, 200, 0.06);
+            border-radius: 1rem;
+            border-left: 3px solid #7f9cf5;
+            color: #b6c8f0;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .spec-result.active {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .spec-result strong {
+            color: #d6e2ff;
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(-6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- Практическое задание --- */
+        .practice-task {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 2rem;
+        }
+
+        .practice-task h2 {
+            color: #eef4ff;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .practice-task .task-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .practice-task .task-step {
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.4rem;
+            border-left: 3px solid #4f72b0;
+            transition: all 0.2s;
+        }
+
+        .practice-task .task-step:hover {
+            background: rgba(255, 255, 255, 0.04);
+            transform: translateX(4px);
+        }
+
+        .practice-task .task-step .step-num {
+            color: #7f9cf5;
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .practice-task .task-step h4 {
+            color: #eef4ff;
+            font-size: 1.05rem;
+            font-weight: 600;
+            margin: 0.3rem 0 0.5rem 0;
+        }
+
+        .practice-task .task-step p {
+            color: #b6c8f0;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            opacity: 0.85;
+        }
+
+        .practice-task .task-step .example-box {
+            margin-top: 0.6rem;
+            padding: 0.5rem 0.8rem;
+            background: rgba(100, 150, 255, 0.06);
+            border-radius: 0.6rem;
+            color: #9bb1e0;
+            font-size: 0.85rem;
+            border-left: 2px solid #2a4bb0;
+        }
+
+        .practice-task .task-step .example-box strong {
+            color: #d6e2ff;
+        }
+
+        .btn-task {
+            background: linear-gradient(135deg, #f6b868, #d9822b);
+            border: none;
+            color: #0b1120;
+            font-weight: 700;
+            font-size: 0.95rem;
+            padding: 0.7rem 2rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(255, 170, 50, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 1rem;
+            width: 100%;
+        }
+
+        .btn-task:hover {
+            transform: scale(1.02);
+            box-shadow: 0 6px 20px rgba(255, 170, 50, 0.35);
+            background: linear-gradient(135deg, #f8c87a, #e08e35);
+        }
+
+        .btn-task:active {
+            transform: scale(0.97);
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #5b72a3;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 1.5rem;
+        }
+
+        .footer a {
+            color: #7f9cf5;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #b3ccff;
+        }
+
+        @media (max-width: 800px) {
+            .spec-layout {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .practice-task .task-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem 1rem;
+                border-radius: 2rem;
+            }
+            .top-nav {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+            .top-nav .links {
+                justify-content: center;
+            }
+            .top-nav .links a {
+                font-size: 0.85rem;
+                padding: 0.3rem 0.9rem;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            .spec-form {
+                padding: 1.2rem 1rem;
+            }
+            .practice-task {
+                padding: 1.2rem 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- НАВИГАЦИЯ -->
+        <nav class="top-nav">
+            <div class="logo">🎮 <span>GameDev</span> карта</div>
+            <div class="links">
+                <a href="index.html">🚀 Дорожная карта</a>
+                <a href="ideas.html">💡 Генератор идей</a>
+                <a href="spec.html" class="active">📐 Спецификация</a>
+            </div>
+        </nav>
+
+        <!-- КАРТОЧКА -->
+        <div class="card">
+
+            <h1>
+                <span>📐 Планирование</span> и дизайн игры
+            </h1>
+            <div class="subtitle">Заполни спецификацию — получи чёткий план для разработки</div>
+
+            <div class="spec-layout">
+
+                <!-- ЛЕВАЯ КОЛОНКА: ПОДСКАЗКИ -->
+                <div class="tips">
+                    <div class="tip-card">
+                        <span class="emoji">🎯</span>
+                        <h4>Жанр и механика</h4>
+                        <p>Какой жанр? Что делает игрок? В чём главный вызов?</p>
+                        <div class="example">Пример: платформер, нужно прыгать по платформам и собирать монеты, уворачиваясь от врагов.</div>
+                    </div>
+
+                    <div class="tip-card">
+                        <span class="emoji">🎨</span>
+                        <h4>Визуальный стиль</h4>
+                        <p>Как будет выглядеть игра? Ярко, минималистично, пиксельно?</p>
+                        <div class="example">Пример: яркие пиксельные спрайты в стиле ретро-аркады.</div>
+                    </div>
+
+                    <div class="tip-card">
+                        <span class="emoji">🎮</span>
+                        <h4>Управление</h4>
+                        <p>Какие клавиши? Одной рукой или двумя?</p>
+                        <div class="example">Пример: стрелки ← ↑ → для движения, пробел для прыжка.</div>
+                    </div>
+
+                    <div class="tip-card">
+                        <span class="emoji">🏆</span>
+                        <h4>Цель и прогресс</h4>
+                        <p>Как игрок понимает, что победил? Есть ли уровни, очки, время?</p>
+                        <div class="example">Пример: собрать 20 монет за 60 секунд, каждый уровень сложнее.</div>
+                    </div>
+
+                    <div class="tip-card">
+                        <span class="emoji">🔄</span>
+                        <h4>Особенности</h4>
+                        <p>Что делает твою игру уникальной? Одна "фишка".</p>
+                        <div class="example">Пример: можно замедлять время на 2 секунды, чтобы уворачиваться от препятствий.</div>
+                    </div>
+                </div>
+
+                <!-- ПРАВАЯ КОЛОНКА: ФОРМА -->
+                <div class="spec-form">
+                    <h2>📝 Спецификация игры</h2>
+
+                    <div class="form-group">
+                        <label>Название игры</label>
+                        <input type="text" id="gameName" placeholder="Например: «Космический сборщик»" value="Приключение Кузнечика">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Жанр</label>
+                            <select id="genre">
+                                <option value="платформер" selected>Платформер</option>
+                                <option value="аркада">Аркада</option>
+                                <option value="квест">Квест</option>
+                                <option value="стратегия">Стратегия</option>
+                                <option value="симулятор">Симулятор</option>
+                                <option value="раннер">Раннер</option>
+                                <option value="головоломка">Головоломка</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Управление <span class="hint">(клавиши)</span></label>
+                            <input type="text" id="controls" placeholder="Стрелки, пробел" value="← → ↑, Пробел">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Механика <span class="hint">(что делает игрок?)</span></label>
+                        <input type="text" id="mechanic" placeholder="Прыгать, собирать, уворачиваться" value="Прыгать по платформам и собирать монеты">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Цель игры</label>
+                        <input type="text" id="goal" placeholder="Собрать 20 монет за 60 секунд" value="Собрать 20 монет, избегая врагов">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Визуальный стиль</label>
+                        <input type="text" id="style" placeholder="Яркий, пиксельный, минималистичный" value="Яркий пиксель-арт">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Уникальная фишка <span class="hint">(что отличает игру?)</span></label>
+                        <input type="text" id="feature" placeholder="Замедление времени, двойной прыжок" value="Двойной прыжок и ускорение">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Дополнительные заметки</label>
+                        <textarea id="notes" placeholder="Любые идеи, которые хочешь запомнить">Сделать 5 уровней с разными платформами. Добавить босса на финальном уровне.</textarea>
+                    </div>
+
+                    <button class="btn" id="generateBtn">📄 Собрать спецификацию</button>
+                    <button class="btn btn-secondary" id="clearBtn">🗑️ Очистить</button>
+
+                    <div class="spec-result" id="result">
+                        <strong>📋 Готовая спецификация:</strong>
+                        <div id="resultContent"></div>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- ПРАКТИЧЕСКОЕ ЗАДАНИЕ -->
+            <div class="practice-task">
+                <h2>🧪 Практическое задание</h2>
+                <p style="color:#b6c8f0; margin-bottom:1rem;">Попробуй написать спецификацию для своей игры по шагам!</p>
+
+                <div class="task-grid">
+                    <div class="task-step">
+                        <div class="step-num">Шаг 1</div>
+                        <h4>Придумай концепцию</h4>
+                        <p>Опиши идею игры одним предложением. Кто главный герой? Что он делает?</p>
+                        <div class="example-box">
+                            <strong>Пример:</strong> «Кузнечик прыгает по листьям, собирает монеты и уворачивается от пауков»
+                        </div>
+                    </div>
+
+                    <div class="task-step">
+                        <div class="step-num">Шаг 2</div>
+                        <h4>Определи механику</h4>
+                        <p>Какие действия может совершать игрок? Напиши 2-3 основных действия.</p>
+                        <div class="example-box">
+                            <strong>Пример:</strong> «Прыжок (пробел), движение (стрелки), двойной прыжок (пробел ×2)»
+                        </div>
+                    </div>
+
+                    <div class="task-step">
+                        <div class="step-num">Шаг 3</div>
+                        <h4>Придумай цель</h4>
+                        <p>Что нужно сделать, чтобы победить? Есть ли уровни или время?</p>
+                        <div class="example-box">
+                            <strong>Пример:</strong> «Собрать 20 монет за 60 секунд. Каждый уровень сложнее и быстрее»
+                        </div>
+                    </div>
+
+                    <div class="task-step">
+                        <div class="step-num">Шаг 4</div>
+                        <h4>Добавь уникальность</h4>
+                        <p>Что делает твою игру особенной? Одна фишка, которой нет у других.</p>
+                        <div class="example-box">
+                            <strong>Пример:</strong> «Можно замедлять время на 2 секунды, чтобы увернуться от врагов»
+                        </div>
+                    </div>
+                </div>
+
+                <button class="btn-task" id="exampleBtn">✨ Заполнить поля примером</button>
+            </div>
+
+            <div class="footer">
+                🚀 Сделано для <a href="#">GitHub Pages</a> · Проектируй и создавай! 🎮
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const nameInput = document.getElementById('gameName');
+            const genreSelect = document.getElementById('genre');
+            const controlsInput = document.getElementById('controls');
+            const mechanicInput = document.getElementById('mechanic');
+            const goalInput = document.getElementById('goal');
+            const styleInput = document.getElementById('style');
+            const featureInput = document.getElementById('feature');
+            const notesInput = document.getElementById('notes');
+            const resultDiv = document.getElementById('result');
+            const resultContent = document.getElementById('resultContent');
+            const generateBtn = document.getElementById('generateBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const exampleBtn = document.getElementById('exampleBtn');
+
+            function generateSpec() {
+                const name = nameInput.value.trim() || 'Безымянная игра';
+                const genre = genreSelect.value;
+                const controls = controlsInput.value.trim() || 'не указано';
+                const mechanic = mechanicInput.value.trim() || 'не указана';
+                const goal = goalInput.value.trim() || 'не указана';
+                const style = styleInput.value.trim() || 'не указан';
+                const feature = featureInput.value.trim() || 'нет';
+                const notes = notesInput.value.trim() || '—';
+
+                const text = `
+                    <p>🎮 <strong>Название:</strong> ${name}</p>
+                    <p>📂 <strong>Жанр:</strong> ${genre}</p>
+                    <p>🎯 <strong>Механика:</strong> ${mechanic}</p>
+                    <p>🏆 <strong>Цель:</strong> ${goal}</p>
+                    <p>🎨 <strong>Стиль:</strong> ${style}</p>
+                    <p>⌨️ <strong>Управление:</strong> ${controls}</p>
+                    <p>✨ <strong>Фишка:</strong> ${feature}</p>
+                    <p>📝 <strong>Заметки:</strong> ${notes}</p>
+                `;
+
+                resultContent.innerHTML = text;
+                resultDiv.classList.add('active');
+            }
+
+            function clearForm() {
+                nameInput.value = '';
+                genreSelect.value = 'платформер';
+                controlsInput.value = '';
+                mechanicInput.value = '';
+                goalInput.value = '';
+                styleInput.value = '';
+                featureInput.value = '';
+                notesInput.value = '';
+                resultDiv.classList.remove('active');
+            }
+
+            function fillExample() {
+                nameInput.value = 'Космический сборщик';
+                genreSelect.value = 'аркада';
+                controlsInput.value = 'Стрелки, Пробел';
+                mechanicInput.value = 'Управлять кораблём, собирать кристаллы, уворачиваться от астероидов';
+                goalInput.value = 'Собрать 50 кристаллов и долететь до финиша за 90 секунд';
+                styleInput.value = 'Яркий космос с неоновыми цветами';
+                featureInput.value = 'Можно использовать щит, который отражает астероиды на 2 секунды';
+                notesInput.value = '3 уровня сложности. На каждом уровне астероидов становится больше. Босс в конце.';
+                generateSpec();
+            }
+
+            generateBtn.addEventListener('click', generateSpec);
+            clearBtn.addEventListener('click', clearForm);
+            exampleBtn.addEventListener('click', fillExample);
+
+            // Автогенерация при загрузке
+            setTimeout(generateSpec, 300);
+        })();
+    </script>
+</body>
+</html>

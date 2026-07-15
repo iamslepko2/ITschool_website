@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Генератор идей для игры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b1120 0%, #19233c 100%);
+            padding: 2rem 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        /* --- Шапка с навигацией --- */
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            padding: 0 0.5rem;
+        }
+
+        .top-nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #eef4ff;
+            letter-spacing: -0.02em;
+        }
+
+        .top-nav .logo span {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .top-nav .links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .top-nav .links a {
+            color: #9bb1e0;
+            text-decoration: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .top-nav .links a:hover {
+            background: rgba(100, 150, 255, 0.15);
+            border-color: rgba(130, 170, 255, 0.3);
+            color: #d6e2ff;
+        }
+
+        .top-nav .links a.active {
+            background: rgba(100, 150, 255, 0.2);
+            border-color: #7f9cf5;
+            color: #f0f4ff;
+        }
+
+        /* --- Карточка --- */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            padding: 2.5rem 2.5rem 2.5rem;
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #f0f4ff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .subtitle {
+            color: #8aa0d0;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        /* --- Теория: сетка способов --- */
+        .theory-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1.2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .theory-card {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.5rem;
+            padding: 1.2rem 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.2s;
+            cursor: default;
+        }
+
+        .theory-card:hover {
+            background: rgba(32, 48, 80, 0.6);
+            border-color: rgba(130, 170, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .theory-card .emoji {
+            font-size: 1.8rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .theory-card h3 {
+            color: #eef4ff;
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+        }
+
+        .theory-card p {
+            color: #b6c8f0;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            opacity: 0.85;
+        }
+
+        .theory-card .example {
+            margin-top: 0.5rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(100, 150, 255, 0.08);
+            border-radius: 0.6rem;
+            color: #b3ccff;
+            font-size: 0.85rem;
+            border-left: 2px solid #4f72b0;
+        }
+
+        .theory-card .example strong {
+            color: #d6e2ff;
+        }
+
+        /* --- Практическое задание --- */
+        .practice {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 2rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 1.5rem;
+        }
+
+        .practice h2 {
+            color: #eef4ff;
+            font-size: 1.4rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .practice .steps {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+            margin: 1rem 0 1.2rem 0;
+        }
+
+        .practice .steps li {
+            color: #b6c8f0;
+            font-size: 0.98rem;
+            line-height: 1.5;
+            list-style: none;
+            padding: 0.5rem 0.8rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0.8rem;
+            border-left: 2px solid #4f72b0;
+        }
+
+        .practice .steps li strong {
+            color: #d6e2ff;
+        }
+
+        .practice .random-box {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem 1.5rem;
+            margin: 1.2rem 0 1.5rem 0;
+            padding: 1rem 1.2rem;
+            background: rgba(60, 100, 200, 0.08);
+            border-radius: 1.2rem;
+            border: 1px dashed rgba(130, 170, 255, 0.2);
+        }
+
+        .practice .random-box .word {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #d6e2ff;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.2rem 1rem;
+            border-radius: 40px;
+            min-width: 80px;
+            text-align: center;
+        }
+
+        .practice .random-box .label {
+            color: #8aa0d0;
+            font-size: 0.95rem;
+        }
+
+        .practice .random-box .label span {
+            color: #b6c8f0;
+            font-weight: 500;
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #4f72b0, #2a4bb0);
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(50, 90, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .btn:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(50, 90, 255, 0.35);
+            background: linear-gradient(135deg, #5a7ec9, #3455c4);
+        }
+
+        .btn:active {
+            transform: scale(0.97);
+        }
+
+        .practice .idea-output {
+            margin-top: 1rem;
+            padding: 1rem 1.2rem;
+            background: rgba(18, 28, 50, 0.6);
+            border-radius: 1.2rem;
+            border-left: 4px solid #7f9cf5;
+            color: #d6e2ff;
+            font-size: 1.05rem;
+            line-height: 1.6;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+        }
+
+        .practice .idea-output .placeholder {
+            color: #5b72a3;
+            font-style: italic;
+        }
+
+        /* --- Футер --- */
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #5b72a3;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 1.5rem;
+        }
+
+        .footer a {
+            color: #7f9cf5;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #b3ccff;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem 1rem;
+                border-radius: 2rem;
+            }
+            .top-nav {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+            .top-nav .links {
+                justify-content: center;
+            }
+            .top-nav .links a {
+                font-size: 0.85rem;
+                padding: 0.3rem 0.9rem;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            .theory-grid {
+                grid-template-columns: 1fr;
+            }
+            .practice {
+                padding: 1.2rem 1rem;
+            }
+            .practice .random-box {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+            .practice .random-box .word {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <!-- НАВИГАЦИЯ -->
+        <nav class="top-nav">
+            <div class="logo">🎮 <span>GameDev</span> карта</div>
+            <div class="links">
+                <a href="index.html">🚀 Дорожная карта</a>
+                <a href="ideas.html" class="active">💡 Генератор идей</a>
+                <a href="spec.html">📐 Спецификация</a>
+            </div>
+        </nav>
+
+        <!-- КАРТОЧКА -->
+        <div class="card">
+
+            <h1>
+                <span>💡 Генератор</span> идей для игры
+            </h1>
+            <div class="subtitle">10 способов придумать крутую концепцию — для школьников 12–15 лет</div>
+
+            <!-- ТЕОРИЯ -->
+            <div class="theory-grid">
+
+                <div class="theory-card">
+                    <span class="emoji">🎯</span>
+                    <h3>От механики — к сюжету</h3>
+                    <p>Придумай крутое действие, а потом добавь историю.</p>
+                    <div class="example"><strong>Пример:</strong> «Прыгать по платформам» → игра про кузнечика, спасающего луг от саранчи.</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">🤔</span>
+                    <h3>«Что если?»</h3>
+                    <p>Возьми обычную ситуацию и добавь необычный поворот.</p>
+                    <div class="example"><strong>Пример:</strong> Что если управлять не героем, а гравитацией? Или играть за злодея?</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">🔄</span>
+                    <h3>Ремейк классики</h3>
+                    <p>Возьми старую игру и добавь свою «фишку».</p>
+                    <div class="example"><strong>Пример:</strong> Тетрис + бонусы, которые меняют форму фигур.</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">⚽</span>
+                    <h3>Вдохновляйся хобби</h3>
+                    <p>Спорт, музыка, рисование, кулинария — всё может стать игрой.</p>
+                    <div class="example"><strong>Пример:</strong> Смешивай цвета как художник или готовь блюда по рецепту.</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">🧩</span>
+                    <h3>Смешай два жанра</h3>
+                    <p>Объедини несовместимое — получится свежо.</p>
+                    <div class="example"><strong>Пример:</strong> Платформер + головоломка = нужно прыгать и переставлять блоки.</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">🌌</span>
+                    <h3>Опиши атмосферу</h3>
+                    <p>Настроение рождает идею: космос, джунгли, уютное кафе.</p>
+                    <div class="example"><strong>Пример:</strong> Ты астронавт, и в темноте что-то движется…</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">🕹️</span>
+                    <h3>Игра в игре</h3>
+                    <p>Персонаж играет в другую игру — и вдруг происходит что-то странное.</p>
+                    <div class="example"><strong>Пример:</strong> Школьник играет в аркаду, а герой выпрыгивает из экрана.</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">🎲</span>
+                    <h3>Метод случайного слова</h3>
+                    <p>Выбери любое слово и придумай игру с ним.</p>
+                    <div class="example"><strong>Пример:</strong> «Тень» → играй за тень, которая повторяет движения с задержкой.</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">🔧</span>
+                    <h3>Проблема → решение</h3>
+                    <p>Придумай игру, которая решает какую-то проблему.</p>
+                    <div class="example"><strong>Пример:</strong> Скучно ждать автобус? → кликай как можно быстрее за 1 минуту.</div>
+                </div>
+
+                <div class="theory-card">
+                    <span class="emoji">📓</span>
+                    <h3>Дневник идей</h3>
+                    <p>Записывай всё, что приходит в голову: сны, забавные случаи, ошибки в играх.</p>
+                    <div class="example"><strong>Пример:</strong> Заметка «персонаж случайно провалился под текстуру» → игра про порталы.</div>
+                </div>
+
+            </div>
+
+            <!-- ПРАКТИКА -->
+            <div class="practice">
+                <h2>🧪 Практическое задание</h2>
+                <p style="color:#b6c8f0; margin-bottom:0.8rem;">Попробуй придумать игру прямо сейчас за 2 минуты!</p>
+
+                <ul class="steps">
+                    <li><strong>Шаг 1.</strong> Открой список жанров: платформер, аркада, квест, стратегия, симулятор</li>
+                    <li><strong>Шаг 2.</strong> Нажми на кнопку — получишь два случайных слова</li>
+                    <li><strong>Шаг 3.</strong> Придумай игру, используя жанр и оба слова</li>
+                </ul>
+
+                <div class="random-box">
+                    <span class="label">🎲 Жанр:</span>
+                    <span class="word" id="genreWord">платформер</span>
+                    <span class="label">➕ Слова:</span>
+                    <span class="word" id="word1">кактус</span>
+                    <span class="word" id="word2">билет</span>
+                    <button class="btn" id="randomBtn">🎲 Сгенерировать</button>
+                </div>
+
+                <div class="idea-output" id="ideaOutput">
+                    <span class="placeholder">Нажми «Сгенерировать» и придумай игру за 2 минуты! 💭</span>
+                </div>
+            </div>
+
+            <div class="footer">
+                🚀 Сделано для <a href="#">GitHub Pages</a> · Играй и твори! 🎮
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        (function() {
+            const genres = ['платформер', 'аркада', 'квест', 'стратегия', 'симулятор', 'раннер', 'головоломка', 'шутер'];
+            const words = [
+                'кактус', 'билет', 'тень', 'ручей', 'лупа', 'хвост', 'зеркало', 'паутина',
+                'фонарь', 'монета', 'перо', 'ключ', 'карта', 'компас', 'робот', 'пиксель',
+                'облако', 'волна', 'искра', 'корень', 'кристалл', 'перчатка', 'шлем', 'крыло',
+                'часы', 'нить', 'меч', 'щит', 'камень', 'цветок', 'снег', 'дождь'
+            ];
+
+            const genreEl = document.getElementById('genreWord');
+            const word1El = document.getElementById('word1');
+            const word2El = document.getElementById('word2');
+            const outputEl = document.getElementById('ideaOutput');
+            const btn = document.getElementById('randomBtn');
+
+            function getRandom(arr) {
+                return arr[Math.floor(Math.random() * arr.length)];
+            }
+
+            function generate() {
+                const genre = getRandom(genres);
+                const w1 = getRandom(words);
+                let w2 = getRandom(words);
+                while (w2 === w1) {
+                    w2 = getRandom(words);
+                }
+
+                genreEl.textContent = genre;
+                word1El.textContent = w1;
+                word2El.textContent = w2;
+
+                const prompts = [
+                    `💡 Игра в жанре  <strong>${genre}</strong>, где главный предмет —  <strong>${w1}</strong>, а цель — найти  <strong>${w2}</strong>.`,
+                    `🎯 <strong>${genre}</strong> про героя, который использует <strong>${w1}</strong>, чтобы победить с помощью <strong>${w2}</strong>.`,
+                    `🌟 Смешай <strong>${genre}</strong> с магией <strong>${w1}</strong> и тайной <strong>${w2}</strong>. Что получится?`,
+                    `🚀 <strong>${genre}</strong> в мире, где <strong>${w1}</strong> — это сила, а <strong>${w2}</strong> — ключ к победе.`,
+                    `🎮 Придумай игру: <strong>${genre}</strong> + предмет <strong>${w1}</strong> + механика с <strong>${w2}</strong>.`
+                ];
+                const prompt = getRandom(prompts);
+
+                outputEl.innerHTML = prompt;
+            }
+
+            btn.addEventListener('click', generate);
+            generate();
+        })();
+    </script>
+
+</body>
+</html>
