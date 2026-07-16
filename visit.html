@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Космическая миссия · Курс по созданию игр</title>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            image-rendering: pixelated;
+        }
+
+        body {
+            background: #0b0b1a;
+            font-family: 'Press Start 2P', monospace;
+            color: #b0f0ff;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: rgba(8, 12, 30, 0.85);
+            border: 4px solid #4af;
+            box-shadow: 0 0 40px rgba(0, 150, 255, 0.3);
+            padding: 24px 24px 40px;
+            position: relative;
+        }
+
+        .container::before {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -8px;
+            right: -8px;
+            bottom: -8px;
+            border: 2px solid #f0f;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 3px solid #4af;
+            padding-bottom: 18px;
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .logo svg {
+            width: 64px;
+            height: 64px;
+        }
+
+        .logo h1 {
+            font-size: 22px;
+            color: #8cf;
+            text-shadow: 0 0 12px #4af, 0 0 30px #2af;
+            letter-spacing: 2px;
+        }
+
+        .logo small {
+            display: block;
+            font-size: 9px;
+            color: #9cf;
+            opacity: 0.8;
+            margin-top: 6px;
+            letter-spacing: 1px;
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: #1a1a3a;
+            border: 2px solid #f0f;
+            color: #f8f;
+            padding: 8px 18px;
+            font-size: 11px;
+            border-radius: 0;
+            text-shadow: 0 0 10px #f0f;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.3);
+            white-space: nowrap;
+        }
+
+        /* ===== КНОПКА СВЯЗЬ ===== */
+        .contact-btn-wrapper {
+            position: relative;
+        }
+
+        .contact-btn {
+            display: inline-block;
+            background: #0a1628;
+            border: 2px solid #ff88ff;
+            color: #ff88ff;
+            padding: 8px 18px;
+            font-family: 'Press Start 2P', monospace;
+            font-size: 10px;
+            text-decoration: none;
+            transition: 0.2s;
+            position: relative;
+            z-index: 2;
+            cursor: pointer;
+            text-shadow: 0 0 10px #f0f;
+            box-shadow: 0 0 20px rgba(255, 0, 255, 0.15);
+        }
+
+        .contact-btn:hover {
+            background: #1a1a3a;
+            border-color: #ff88ff;
+            box-shadow: 0 0 40px rgba(255, 0, 255, 0.3);
+            transform: scale(1.03);
+        }
+
+        .contact-btn::before {
+            content: '';
+            position: absolute;
+            top: -4px;
+            left: -4px;
+            right: -4px;
+            bottom: -4px;
+            border: 2px solid #ff88ff;
+            opacity: 0;
+            z-index: -1;
+            animation: pulse-ring 2s ease-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% {
+                opacity: 0.8;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: scale(1.15);
+            }
+        }
+
+        .contact-btn .dot-indicator {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: #ff88ff;
+            margin-right: 8px;
+            box-shadow: 0 0 12px #f0f;
+            animation: blink-dot 1s infinite;
+        }
+
+        @keyframes blink-dot {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.1;
+            }
+        }
+
+        /* ===== MISSION BRIEF ===== */
+        .mission-brief {
+            background: #0d122b;
+            border: 2px solid #4af;
+            padding: 22px 28px;
+            margin-bottom: 38px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 20px;
+            box-shadow: inset 0 0 30px rgba(0, 100, 255, 0.1);
+        }
+
+        .mission-brief .text {
+            flex: 2;
+            min-width: 200px;
+        }
+
+        .mission-brief .text h2 {
+            font-size: 16px;
+            color: #ffcc00;
+            margin-bottom: 12px;
+            text-shadow: 0 0 20px #fa0;
+        }
+
+        .mission-brief .text p {
+            font-size: 11px;
+            line-height: 1.9;
+            color: #b8d8ff;
+        }
+
+        .mission-brief .text .highlight {
+            color: #ff88ff;
+            background: rgba(255, 0, 255, 0.1);
+            padding: 0 6px;
+        }
+
+        .mission-brief .logo-big {
+            flex: 0 0 90px;
+            text-align: center;
+        }
+
+        .mission-brief .logo-big svg {
+            width: 90px;
+            height: 90px;
+            filter: drop-shadow(0 0 16px #00ff88);
+        }
+
+        /* ===== MAP ===== */
+        .map-title {
+            font-size: 14px;
+            color: #ffcc00;
+            text-align: center;
+            margin: 30px 0 20px;
+            letter-spacing: 4px;
+            text-shadow: 0 0 20px #fa0;
+        }
+
+        .map {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 6px 12px;
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .map::before {
+            content: '';
+            position: absolute;
+            top: 44px;
+            left: 60px;
+            right: 60px;
+            height: 3px;
+            background: repeating-linear-gradient(90deg, #4af, #4af 12px, transparent 12px, transparent 18px);
+            opacity: 0.25;
+            z-index: 0;
+        }
+
+        .planet {
+            flex: 1 0 100px;
+            max-width: 140px;
+            min-width: 100px;
+            background: #0d1a2f;
+            border: 2px solid #2a5f7a;
+            padding: 14px 8px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            position: relative;
+            z-index: 2;
+            box-shadow: 0 0 0 rgba(0, 200, 255, 0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .planet:hover {
+            transform: scale(1.05);
+            border-color: #8cf;
+            box-shadow: 0 0 30px rgba(0, 200, 255, 0.4);
+            background: #10253f;
+        }
+
+        .planet .emoji-big {
+            font-size: 38px;
+            display: block;
+            margin-bottom: 6px;
+            filter: drop-shadow(0 0 6px rgba(100, 200, 255, 0.4));
+            flex-shrink: 0;
+        }
+
+        .planet .step {
+            font-size: 9px;
+            color: #6aa;
+            background: #0a1628;
+            padding: 2px 8px;
+            display: inline-block;
+            margin-bottom: 6px;
+            border: 1px solid #2a5f7a;
+            flex-shrink: 0;
+        }
+
+        .planet h4 {
+            font-size: 11px;
+            color: #b0f0ff;
+            margin: 4px 0 2px;
+            flex-shrink: 0;
+            line-height: 1.4;
+        }
+
+        .planet p {
+            font-size: 8px;
+            color: #8ab;
+            line-height: 1.6;
+            margin-top: 4px;
+            flex-shrink: 0;
+        }
+
+        .planet .time {
+            font-size: 7px;
+            color: #f0f;
+            background: rgba(255, 0, 255, 0.1);
+            padding: 2px 6px;
+            display: inline-block;
+            margin-top: 6px;
+            border: 1px solid #f0f3;
+            flex-shrink: 0;
+        }
+
+        /* у ИИ-разработки длинное название — делаем чуть меньше шрифт */
+        .planet .h4-small {
+            font-size: 9px;
+            line-height: 1.3;
+        }
+
+        .planet.active {
+            border-color: #f0f;
+            box-shadow: 0 0 30px rgba(255, 0, 255, 0.3);
+        }
+
+        /* ===== DETAILS ===== */
+        .details {
+            margin: 40px 0 30px;
+            border-top: 2px dashed #2a5f7a;
+            padding-top: 28px;
+        }
+
+        .details-title {
+            font-size: 13px;
+            color: #ffcc00;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .accordion-item {
+            background: #0d122b;
+            border: 2px solid #1a3a55;
+            margin-bottom: 8px;
+            overflow: hidden;
+        }
+
+        .accordion-item summary {
+            padding: 14px 20px;
+            font-size: 11px;
+            color: #8cf;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: 0.15s;
+            list-style: none;
+        }
+
+        .accordion-item summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .accordion-item summary:hover {
+            background: #142b4a;
+        }
+
+        .accordion-item summary .num {
+            color: #f0f;
+            font-size: 14px;
+            min-width: 24px;
+        }
+
+        .accordion-item summary .label {
+            flex: 1;
+        }
+
+        .accordion-item summary .arrow {
+            color: #4af;
+            transition: 0.2s;
+        }
+
+        .accordion-item[open] summary .arrow {
+            transform: rotate(90deg);
+        }
+
+        .accordion-item .content {
+            padding: 6px 20px 20px 56px;
+            font-size: 10px;
+            line-height: 2;
+            color: #b0d0f0;
+            border-top: 1px solid #1a3a55;
+        }
+
+        .accordion-item .content .tag {
+            display: inline-block;
+            background: #1a2a4a;
+            color: #ffcc00;
+            padding: 0 10px;
+            margin-right: 6px;
+            font-size: 8px;
+            border: 1px solid #4a6a8a;
+        }
+
+        /* ===== КОНТАКТНЫЙ БЛОК ===== */
+        .contact-section {
+            margin-top: 30px;
+            border-top: 2px dashed #2a5f7a;
+            padding-top: 28px;
+        }
+
+        .contact-section .contact-title {
+            font-size: 13px;
+            color: #ffcc00;
+            text-align: center;
+            margin-bottom: 20px;
+            letter-spacing: 2px;
+        }
+
+        .contact-block {
+            background: #0d122b;
+            border: 2px solid #1a3a55;
+            padding: 22px 24px 24px;
+            transition: 0.2s;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .contact-block:hover {
+            border-color: #4af;
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.1);
+        }
+
+        .contact-block .block-label {
+            font-size: 8px;
+            color: #4a6a8a;
+            letter-spacing: 2px;
+            margin-bottom: 6px;
+        }
+
+        .contact-block .block-title {
+            font-size: 14px;
+            color: #00ff88;
+            text-shadow: 0 0 12px rgba(0, 255, 136, 0.3);
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .contact-block .block-title .icon {
+            font-size: 20px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(26, 58, 85, 0.4);
+            font-size: 10px;
+        }
+
+        .contact-item:last-child {
+            border-bottom: none;
+        }
+
+        .contact-item .emoji {
+            font-size: 18px;
+            min-width: 30px;
+            text-align: center;
+        }
+
+        .contact-item .label {
+            color: #6aa;
+            min-width: 70px;
+            font-size: 8px;
+        }
+
+        .contact-item .value {
+            color: #b0f0ff;
+            word-break: break-all;
+        }
+
+        .contact-item .value a {
+            color: #8cf;
+            text-decoration: none;
+            border-bottom: 1px dashed #2a5f7a;
+        }
+
+        .contact-item .value a:hover {
+            color: #ff88ff;
+            border-bottom-color: #f0f;
+        }
+
+        .status-line {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(26, 58, 85, 0.4);
+            font-size: 8px;
+            color: #4a6a8a;
+            flex-wrap: wrap;
+        }
+
+        .status-line .dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 0;
+            display: inline-block;
+        }
+
+        .dot.green {
+            background: #00ff88;
+            box-shadow: 0 0 10px #00ff88;
+            animation: blink 1.2s infinite;
+        }
+
+        @keyframes blink {
+            0%,
+            100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0.15;
+            }
+        }
+
+        .status-line .signal {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            margin-left: auto;
+            flex: 0 0 80px;
+        }
+
+        .status-line .signal .bar {
+            width: 12px;
+            height: 8px;
+            background: #1a2a4a;
+            border: 1px solid #2a5f7a;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .status-line .signal .bar.active {
+            background: #00ff88;
+            border-color: #00ff88;
+            box-shadow: 0 0 8px rgba(0, 255, 136, 0.3);
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 2px solid #1a3a55;
+            padding-top: 22px;
+            margin-top: 30px;
+            font-size: 9px;
+            color: #5a7a9a;
+        }
+
+        .footer .stars {
+            color: #ffcc00;
+            letter-spacing: 4px;
+        }
+
+        .footer .github-link {
+            color: #8cf;
+            text-decoration: none;
+            border: 1px solid #2a5f7a;
+            padding: 6px 16px;
+            transition: 0.15s;
+        }
+
+        .footer .github-link:hover {
+            background: #1a3a5a;
+            border-color: #8cf;
+        }
+
+        .blink {
+            animation: blink 1.2s infinite;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 760px) {
+            .header {
+                flex-direction: column;
+                align-items: start;
+                gap: 12px;
+            }
+            .logo h1 {
+                font-size: 18px;
+            }
+            .mission-brief {
+                flex-direction: column;
+                text-align: center;
+            }
+            .map::before {
+                display: none;
+            }
+            .planet {
+                flex: 1 0 80px;
+                max-width: 120px;
+                min-width: 80px;
+            }
+            .accordion-item .content {
+                padding-left: 20px;
+            }
+            .contact-btn {
+                font-size: 9px;
+                padding: 8px 14px;
+            }
+            .badge {
+                font-size: 9px;
+                padding: 6px 12px;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+        }
+
+        @media (max-width: 500px) {
+            .container {
+                padding: 14px;
+            }
+            .planet {
+                flex: 1 0 70px;
+                max-width: 100px;
+                min-width: 70px;
+                padding: 10px 6px;
+            }
+            .planet .emoji-big {
+                font-size: 28px;
+            }
+            .planet h4 {
+                font-size: 9px;
+            }
+            .planet .h4-small {
+                font-size: 8px;
+            }
+            .planet p {
+                font-size: 7px;
+            }
+            .mission-brief .text h2 {
+                font-size: 13px;
+            }
+            .mission-brief .logo-big {
+                flex: 0 0 70px;
+            }
+            .mission-brief .logo-big svg {
+                width: 70px;
+                height: 70px;
+            }
+            .contact-item {
+                flex-wrap: wrap;
+                gap: 4px;
+            }
+            .contact-item .label {
+                min-width: 50px;
+                font-size: 7px;
+            }
+            .contact-item .value {
+                font-size: 9px;
+            }
+            .status-line {
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+            .status-line .signal {
+                flex: 1;
+                justify-content: flex-end;
+            }
+            .contact-block {
+                padding: 14px 12px;
+            }
+            .contact-block .block-title {
+                font-size: 11px;
+            }
+            .contact-item .emoji {
+                font-size: 14px;
+                min-width: 24px;
+            }
+            .status-line .signal .bar {
+                width: 10px;
+                height: 6px;
+            }
+            .header-actions {
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== HEADER ===== -->
+        <header class="header">
+            <div class="logo">
+                <svg viewBox="0 0 80 80" width="64" height="64">
+                    <rect x="2" y="2" width="76" height="76" fill="#0a0f20" stroke="#00ff88" stroke-width="2" />
+                    <text x="6" y="18" font-family="'Press Start 2P', monospace" font-size="7" fill="#00ff88" opacity="0.5">C:\&gt;</text>
+                    <text x="8" y="48" font-family="'Press Start 2P', monospace" font-size="18" fill="#00ff88" letter-spacing="1">IT</text>
+                    <text x="42" y="48" font-family="'Press Start 2P', monospace" font-size="18" fill="#ffcc00" letter-spacing="1">44</text>
+                    <rect x="68" y="34" width="5" height="12" fill="#00ff88">
+                        <animate attributeName="opacity" values="1;0;1" dur="0.6s" repeatCount="indefinite" />
+                    </rect>
+                    <text x="6" y="72" font-family="'Press Start 2P', monospace" font-size="6" fill="#00ff88" opacity="0.35">SYSTEM: ONLINE</text>
+                </svg>
+                <div>
+                    <h1>✦ КОСМИЧЕСКАЯ МИССИЯ</h1>
+                    <small>Создай свою игру · от идеи до релиза</small>
+                </div>
+            </div>
+
+            <div class="header-actions">
+                <div class="contact-btn-wrapper">
+                    <a href="#contacts" class="contact-btn" id="contactBtn">
+                        <span class="dot-indicator"></span>
+                        📡 СВЯЗЬ
+                    </a>
+                </div>
+                <div class="badge">
+                    🚀 СТАРТ 2026
+                </div>
+            </div>
+        </header>
+
+        <!-- ===== MISSION BRIEF ===== -->
+        <div class="mission-brief">
+            <div class="text">
+                <h2>🚀 ДОБРО ПОЖАЛОВАТЬ, РЕКРУТ!</h2>
+                <p>
+                    Ты отправишься в <span class="highlight">6-этапную космическую миссию</span>, чтобы создать
+                    собственную игру с нуля. Никакой скучной теории — только практика,
+                    творчество и помощь ИИ-навигатора.
+                </p>
+                <p style="margin-top:10px; font-size:10px;">
+                    ⏳ 30 часов интерактивного приключения ·
+                </p>
+            </div>
+            <div class="logo-big">
+                <svg viewBox="0 0 100 100">
+                    <rect x="2" y="2" width="96" height="96" fill="#0a0f20" stroke="#00ff88" stroke-width="2.5" />
+                    <text x="8" y="22" font-family="'Press Start 2P', monospace" font-size="9" fill="#00ff88" opacity="0.5">C:\&gt;</text>
+                    <text x="10" y="60" font-family="'Press Start 2P', monospace" font-size="24" fill="#00ff88" letter-spacing="1">IT</text>
+                    <text x="52" y="60" font-family="'Press Start 2P', monospace" font-size="24" fill="#ffcc00" letter-spacing="1">44</text>
+                    <rect x="86" y="42" width="6" height="16" fill="#00ff88">
+                        <animate attributeName="opacity" values="1;0;1" dur="0.6s" repeatCount="indefinite" />
+                    </rect>
+                    <text x="8" y="90" font-family="'Press Start 2P', monospace" font-size="7" fill="#00ff88" opacity="0.35">SYSTEM: ONLINE</text>
+                </svg>
+            </div>
+        </div>
+
+        <!-- ===== MAP ===== -->
+        <div class="map-title">
+            🗺️ МАРШРУТ МИССИИ
+        </div>
+
+        <div class="map">
+
+            <div class="planet" data-step="1">
+                <span class="emoji-big">🌍</span>
+                <span class="step">ШАГ 1</span>
+                <h4>ЗЕМЛЯ</h4>
+                <p>Основы JS</p>
+                <span class="time">⏱ 9 ч</span>
+            </div>
+
+            <div class="planet" data-step="2">
+                <span class="emoji-big">🛸</span>
+                <span class="step">ШАГ 2</span>
+                <h4>ИДЕЯ</h4>
+                <p>Концепт-игра</p>
+                <span class="time">⏱ 2 ч</span>
+            </div>
+
+            <div class="planet" data-step="3">
+                <span class="emoji-big">📡</span>
+                <span class="step">ШАГ 3</span>
+                <h4>СПЕК</h4>
+                <p>Спецификация</p>
+                <span class="time">⏱ 3 ч</span>
+            </div>
+
+            <div class="planet" data-step="4">
+                <span class="emoji-big">🤖</span>
+                <span class="step">ШАГ 4</span>
+                <h4 class="h4-small">ИИ-РАЗРАБОТКА</h4>
+                <p>Кодим с ИИ</p>
+                <span class="time">⏱ 9 ч</span>
+            </div>
+
+            <div class="planet" data-step="5">
+                <span class="emoji-big">🧪</span>
+                <span class="step">ШАГ 5</span>
+                <h4>ТЕСТ</h4>
+                <p>Отладка</p>
+                <span class="time">⏱ 3 ч</span>
+            </div>
+
+            <div class="planet" data-step="6">
+                <span class="emoji-big">🚀</span>
+                <span class="step">ШАГ 6</span>
+                <h4>РЕЛИЗ</h4>
+                <p>Доработки и релиз</p>
+                <span class="time">⏱ 4 ч</span>
+            </div>
+
+        </div>
+
+        <!-- ===== DETAILS ===== -->
+        <div class="details">
+            <div class="details-title">
+                📋 РАСШИФРОВКА МИССИИ
+            </div>
+
+            <details class="accordion-item" open>
+                <summary>
+                    <span class="num">01</span>
+                    <span class="label">🌍 Земля — основы программирования</span>
+                    <span class="arrow">▶</span>
+                </summary>
+                <div class="content">
+                    <span class="tag">JS</span> Переменные, условия, циклы, функции, массивы.
+                    <br />🎯 <strong>Результат:</strong> ты напишешь свой первый рабочий скрипт.
+                    <br />🧠 <em>«Это фундамент твоей будущей игры»</em>
+                </div>
+            </details>
+
+            <details class="accordion-item">
+                <summary>
+                    <span class="num">02</span>
+                    <span class="label">🛸 Идея — придумываем концепт</span>
+                    <span class="arrow">▶</span>
+                </summary>
+                <div class="content">
+                    <span class="tag">Креатив</span> Генерация идей, жанры, механики, сюжет.
+                    <br />🎯 <strong>Результат:</strong> уникальная концепция твоей игры.
+                    <br />🧠 <em>«Любая великая игра начинается с идеи»</em>
+                </div>
+            </details>
+
+            <details class="accordion-item">
+                <summary>
+                    <span class="num">03</span>
+                    <span class="label">📡 Спек — пишем спецификацию</span>
+                    <span class="arrow">▶</span>
+                </summary>
+                <div class="content">
+                    <span class="tag">Документация</span> Правила, механики, интерфейс, структура кода.
+                    <br />🎯 <strong>Результат:</strong> чёткий план разработки.
+                    <br />🧠 <em>«Хороший план — половина успеха»</em>
+                </div>
+            </details>
+
+            <details class="accordion-item">
+                <summary>
+                    <span class="num">04</span>
+                    <span class="label">🤖 ИИ-разработка</span>
+                    <span class="arrow">▶</span>
+                </summary>
+                <div class="content">
+                    <span class="tag">AI</span> Пишем код вместе с ИИ-ассистентом.
+                    <br />🎯 <strong>Результат:</strong> готовая игра, созданная с помощью нейросетей.
+                    <br />🧠 <em>«ИИ не заменит тебя, но сделает тебя супер-разработчиком»</em>
+                </div>
+            </details>
+
+            <details class="accordion-item">
+                <summary>
+                    <span class="num">05</span>
+                    <span class="label">🧪 Тест — отладка и баги</span>
+                    <span class="arrow">▶</span>
+                </summary>
+                <div class="content">
+                    <span class="tag">QA</span> Поиск ошибок, исправление, полировка.
+                    <br />🎯 <strong>Результат:</strong> стабильная, играбельная версия.
+                    <br />🧠 <em>«Хорошая игра не та, где нет багов, а та, где их не видно»</em>
+                </div>
+            </details>
+
+            <details class="accordion-item">
+                <summary>
+                    <span class="num">06</span>
+                    <span class="label">🚀 Релиз — доработки и публикация</span>
+                    <span class="arrow">▶</span>
+                </summary>
+                <div class="content">
+                    <span class="tag">Деплой</span> Финальные доработки и публикация игры на GitHub Pages.
+                    <br />🎯 <strong>Результат:</strong> твоя игра доступна всему миру по ссылке.
+                    <br />🧠 <em>«Ты теперь — официальный разработчик!»</em>
+                </div>
+            </details>
+        </div>
+
+        <!-- ===== КОНТАКТНЫЙ БЛОК ===== -->
+        <div class="contact-section" id="contacts">
+            <div class="contact-title">
+                📡 СВЯЖИСЬ С ЦЕНТРОМ УПРАВЛЕНИЯ
+            </div>
+
+            <div class="contact-block">
+                <div class="block-label">▸ ЦЕНТР УПРАВЛЕНИЯ ПОЛЁТОМ</div>
+                <div class="block-title">
+                    <span class="icon">📡</span> СВЯЗЬ С ЦЕНТРОМ УПРАВЛЕНИЯ
+                </div>
+
+                <div class="contact-item">
+                    <span class="emoji">📞</span>
+                    <span class="label">ГОРЯЧАЯ ЛИНИЯ</span>
+                    <span class="value"><a href="tel:+79991234567">+7 (999) 123-45-67</a></span>
+                </div>
+
+                <div class="contact-item">
+                    <span class="emoji">📧</span>
+                    <span class="label">КОСМИЧЕСКАЯ ПОЧТА</span>
+                    <span class="value"><a href="mailto:course@it44.ru">course@it44.ru</a></span>
+                </div>
+
+                <div class="contact-item">
+                    <span class="emoji">💬</span>
+                    <span class="label">БОРТОВОЙ ЧАТ</span>
+                    <span class="value"><a href="#">@it44_course</a></span>
+                </div>
+
+                <div class="status-line">
+                    <span class="dot green"></span>
+                    <span>СИГНАЛ:</span>
+                    <span id="signalText" style="color:#00ff88; min-width:40px;">ОТЛИЧНЫЙ</span>
+                    <div class="signal" id="signalBars">
+                        <span class="bar" id="bar1"></span>
+                        <span class="bar" id="bar2"></span>
+                        <span class="bar" id="bar3"></span>
+                        <span class="bar" id="bar4"></span>
+                        <span class="bar" id="bar5"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ===== FOOTER ===== -->
+        <div class="footer">
+            <div class="stars">
+                ★ ★ ★ ★ ★
+            </div>
+            <div>
+                <span class="blink">⬤</span> МИССИЯ ГОТОВА К СТАРТУ
+            </div>
+            <a href="#" class="github-link">📦 GitHub Pages</a>
+        </div>
+
+    </div>
+
+    <script>
+        (function() {
+            // === СИГНАЛ ===
+            const bars = [
+                document.getElementById('bar1'),
+                document.getElementById('bar2'),
+                document.getElementById('bar3'),
+                document.getElementById('bar4'),
+                document.getElementById('bar5')
+            ];
+            const signalText = document.getElementById('signalText');
+
+            let level = 5;
+            let direction = -1;
+
+            const maskMap = {
+                0: [0, 0, 0, 0, 0],
+                1: [1, 0, 0, 0, 0],
+                2: [1, 1, 0, 0, 0],
+                3: [1, 1, 1, 0, 0],
+                4: [1, 1, 1, 1, 0],
+                5: [1, 1, 1, 1, 1]
+            };
+
+            function updateBars() {
+                const mask = maskMap[level] || maskMap[0];
+                bars.forEach((bar, index) => {
+                    if (mask[index] === 1) {
+                        bar.classList.add('active');
+                    } else {
+                        bar.classList.remove('active');
+                    }
+                });
+
+                if (level >= 4) {
+                    signalText.textContent = 'ОТЛИЧНЫЙ';
+                    signalText.style.color = '#00ff88';
+                } else if (level >= 3) {
+                    signalText.textContent = 'ХОРОШИЙ';
+                    signalText.style.color = '#88ff44';
+                } else if (level >= 2) {
+                    signalText.textContent = 'СРЕДНИЙ';
+                    signalText.style.color = '#ffcc00';
+                } else if (level >= 1) {
+                    signalText.textContent = 'СЛАБЫЙ';
+                    signalText.style.color = '#ff8800';
+                } else {
+                    signalText.textContent = 'ПОТЕРЯН';
+                    signalText.style.color = '#ff0044';
+                }
+            }
+
+            function updateLevel() {
+                level += direction;
+                if (level >= 5) { level = 5;
+                    direction = -1; } else if (level <= 0) { level = 0;
+                    direction = 1; }
+                if (Math.random() < 0.2) return;
+                updateBars();
+            }
+
+            level = 5;
+            direction = -1;
+            updateBars();
+            setInterval(updateLevel, 1200);
+
+            // === Плавный скролл ===
+            const contactBtn = document.getElementById('contactBtn');
+            const contactSection = document.getElementById('contacts');
+            if (contactBtn && contactSection) {
+                contactBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                });
+            }
+        })();
+    </script>
+
+</body>
+</html>
