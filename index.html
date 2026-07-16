@@ -21,27 +21,42 @@
             padding: 2rem 1rem;
         }
 
-        .card {
+        .container {
             max-width: 1000px;
             width: 100%;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-            border-radius: 3.5rem;
-            padding: 3rem 2rem 2.5rem;
-            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
-            transition: all 0.2s;
         }
 
         .top-nav {
             display: flex;
-            justify-content: flex-end;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+        }
+
+        .top-nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #eef4ff;
+            letter-spacing: -0.02em;
+        }
+
+        .top-nav .logo span {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .top-nav .links {
+            display: flex;
             gap: 0.8rem;
-            margin-bottom: 1.5rem;
             flex-wrap: wrap;
         }
 
-        .top-nav a {
+        .top-nav .links a {
             color: #9bb1e0;
             text-decoration: none;
             padding: 0.4rem 1.2rem;
@@ -52,39 +67,56 @@
             font-size: 0.95rem;
         }
 
-        .top-nav a:hover {
+        .top-nav .links a:hover {
             background: rgba(100, 150, 255, 0.15);
             border-color: rgba(130, 170, 255, 0.3);
             color: #d6e2ff;
         }
 
-        .top-nav a.active {
+        .top-nav .links a.active {
             background: rgba(100, 150, 255, 0.2);
             border-color: #7f9cf5;
             color: #f0f4ff;
         }
 
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            padding: 2.5rem 2.5rem 2.5rem;
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
         h1 {
-            text-align: center;
-            font-weight: 500;
-            letter-spacing: 0.03em;
-            font-size: 2.2rem;
+            font-size: 2rem;
+            font-weight: 600;
             color: #f0f4ff;
-            margin-bottom: 3rem;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            justify-content: center;
             gap: 0.75rem;
             flex-wrap: wrap;
         }
 
-        h1 span {
+        h1 .gradient-text {
             background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
-            font-weight: 600;
+        }
+
+        h1 .icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #f0f4ff;
+        }
+
+        .subtitle {
+            color: #8aa0d0;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
         }
 
         .timeline {
@@ -233,34 +265,22 @@
             color: #ffe8b0;
         }
 
-        .footer-note {
-            margin-top: 3rem;
+        .footer {
+            margin-top: 2rem;
             text-align: center;
             color: #5b72a3;
-            font-size: 0.9rem;
-            letter-spacing: 0.02em;
+            font-size: 0.85rem;
             border-top: 1px solid rgba(255, 255, 255, 0.03);
-            padding-top: 1.8rem;
-            display: flex;
-            justify-content: center;
-            gap: 2.5rem;
-            flex-wrap: wrap;
+            padding-top: 1.5rem;
         }
 
-        .footer-note span {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            opacity: 0.7;
+        .footer a {
+            color: #7f9cf5;
+            text-decoration: none;
         }
 
-        .footer-note i {
-            font-style: normal;
-            background: #1e2c4a;
-            padding: 0.2rem 0.7rem;
-            border-radius: 40px;
-            font-size: 0.75rem;
-            color: #9bb1e0;
+        .footer a:hover {
+            color: #b3ccff;
         }
 
         @media (max-width: 600px) {
@@ -268,9 +288,20 @@
                 padding: 1.5rem 1rem;
                 border-radius: 2rem;
             }
+            .top-nav {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+            .top-nav .links {
+                justify-content: center;
+            }
+            .top-nav .links a {
+                font-size: 0.85rem;
+                padding: 0.3rem 0.9rem;
+            }
             h1 {
-                font-size: 1.7rem;
-                margin-bottom: 2rem;
+                font-size: 1.6rem;
             }
             .step {
                 padding: 0.8rem 1rem;
@@ -300,39 +331,39 @@
             .timeline::before {
                 left: 0.2rem;
             }
-            .footer-note {
-                flex-direction: column;
-                gap: 0.7rem;
-            }
-            .top-nav {
-                justify-content: center;
-            }
-            .top-nav a {
-                font-size: 0.85rem;
-                padding: 0.3rem 0.9rem;
-            }
         }
     </style>
 </head>
 <body>
-    <div class="card">
+    <div class="container">
+
         <nav class="top-nav">
-            <a href="index.html" class="active">🚀 Дорожная карта</a>
-            <a href="ideas.html">💡 Генератор идей</a>
-            <a href="spec.html">📐 Спецификация</a>
+            <div class="logo">🎮 <span>GameDev</span> карта</div>
+            <div class="links">
+                <a href="index.html" class="active">🚀 Дорожная карта</a>
+                <a href="ideas.html">💡 Генератор идей</a>
+                <a href="spec.html">📐 Спецификация</a>
+                <a href="dev.html">⚙️ Разработка</a>
+            </div>
         </nav>
 
-        <h1>
-            <span>🎮</span> Создаём игру <span>на JavaScript</span>
-        </h1>
+        <div class="card">
 
-        <div class="timeline" id="timeline"></div>
+            <h1>
+                <span class="icon">🎮</span>
+                <span class="gradient-text">Создаём игру</span> на JavaScript
+            </h1>
+            <div class="subtitle">Полный путь от идеи до релиза</div>
 
-        <div class="footer-note">
-            <span>🚀 <i>кликни по этапу → узнай суть</i></span>
-            <span>👾 <i>для летней ИТ школы Кострома</i></span>
+            <div class="timeline" id="timeline"></div>
+
+            <div class="footer">
+                🚀 Сделано для <a href="#">GitHub Pages</a> · Играй и твори! 🎮
+            </div>
+
         </div>
     </div>
+
     <script>
         (function() {
             const stages = [{

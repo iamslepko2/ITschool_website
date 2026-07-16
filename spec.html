@@ -88,6 +88,7 @@
             box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
         }
 
+        /* --- ИСПРАВЛЕННЫЙ ЗАГОЛОВОК --- */
         h1 {
             font-size: 2rem;
             font-weight: 600;
@@ -99,11 +100,19 @@
             flex-wrap: wrap;
         }
 
-        h1 span {
+        /* Градиент применяется ТОЛЬКО к тексту внутри span, иконка не трогается */
+        h1 .gradient-text {
             background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+
+        /* Иконка остаётся обычной, без градиента */
+        h1 .icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #f0f4ff;
         }
 
         .subtitle {
@@ -113,7 +122,6 @@
             opacity: 0.8;
         }
 
-        /* --- Два столбца: подсказки + форма --- */
         .spec-layout {
             display: grid;
             grid-template-columns: 1fr 1.6fr;
@@ -170,7 +178,6 @@
             border-left: 2px solid #4f72b0;
         }
 
-        /* --- Форма спецификации --- */
         .spec-form {
             background: rgba(18, 28, 50, 0.5);
             border-radius: 1.8rem;
@@ -283,7 +290,6 @@
             box-shadow: none;
         }
 
-        /* --- Результат --- */
         .spec-result {
             margin-top: 1.2rem;
             padding: 1rem 1.2rem;
@@ -310,7 +316,6 @@
             100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- Практическое задание --- */
         .practice-task {
             background: rgba(18, 28, 50, 0.5);
             border-radius: 1.8rem;
@@ -472,27 +477,27 @@
 <body>
     <div class="container">
 
-        <!-- НАВИГАЦИЯ -->
         <nav class="top-nav">
             <div class="logo">🎮 <span>GameDev</span> карта</div>
             <div class="links">
                 <a href="index.html">🚀 Дорожная карта</a>
                 <a href="ideas.html">💡 Генератор идей</a>
                 <a href="spec.html" class="active">📐 Спецификация</a>
+                <a href="dev.html">⚙️ Разработка</a>
             </div>
         </nav>
 
-        <!-- КАРТОЧКА -->
         <div class="card">
 
+            <!-- ИСПРАВЛЕННЫЙ ЗАГОЛОВОК -->
             <h1>
-                <span>📐 Планирование</span> и дизайн игры
+                <span class="icon">📐</span>
+                <span class="gradient-text">Планирование</span> и дизайн игры
             </h1>
             <div class="subtitle">Заполни спецификацию — получи чёткий план для разработки</div>
 
             <div class="spec-layout">
 
-                <!-- ЛЕВАЯ КОЛОНКА: ПОДСКАЗКИ -->
                 <div class="tips">
                     <div class="tip-card">
                         <span class="emoji">🎯</span>
@@ -530,7 +535,6 @@
                     </div>
                 </div>
 
-                <!-- ПРАВАЯ КОЛОНКА: ФОРМА -->
                 <div class="spec-form">
                     <h2>📝 Спецификация игры</h2>
 
@@ -594,7 +598,6 @@
 
             </div>
 
-            <!-- ПРАКТИЧЕСКОЕ ЗАДАНИЕ -->
             <div class="practice-task">
                 <h2>🧪 Практическое задание</h2>
                 <p style="color:#b6c8f0; margin-bottom:1rem;">Попробуй написать спецификацию для своей игры по шагам!</p>
@@ -716,7 +719,6 @@
             clearBtn.addEventListener('click', clearForm);
             exampleBtn.addEventListener('click', fillExample);
 
-            // Автогенерация при загрузке
             setTimeout(generateSpec, 300);
         })();
     </script>

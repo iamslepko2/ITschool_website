@@ -26,7 +26,6 @@
             width: 100%;
         }
 
-        /* --- Шапка с навигацией --- */
         .top-nav {
             display: flex;
             justify-content: space-between;
@@ -80,7 +79,6 @@
             color: #f0f4ff;
         }
 
-        /* --- Карточка --- */
         .card {
             background: rgba(255, 255, 255, 0.05);
             backdrop-filter: blur(10px);
@@ -115,7 +113,6 @@
             opacity: 0.8;
         }
 
-        /* --- Теория: сетка способов --- */
         .theory-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
@@ -172,7 +169,6 @@
             color: #d6e2ff;
         }
 
-        /* --- Практическое задание --- */
         .practice {
             background: rgba(18, 28, 50, 0.5);
             border-radius: 2rem;
@@ -241,11 +237,6 @@
             font-size: 0.95rem;
         }
 
-        .practice .random-box .label span {
-            color: #b6c8f0;
-            font-weight: 500;
-        }
-
         .btn {
             background: linear-gradient(135deg, #4f72b0, #2a4bb0);
             border: none;
@@ -289,7 +280,6 @@
             font-style: italic;
         }
 
-        /* --- Футер --- */
         .footer {
             margin-top: 2rem;
             text-align: center;
@@ -348,25 +338,23 @@
 <body>
     <div class="container">
 
-        <!-- НАВИГАЦИЯ -->
         <nav class="top-nav">
             <div class="logo">🎮 <span>GameDev</span> карта</div>
             <div class="links">
                 <a href="index.html">🚀 Дорожная карта</a>
                 <a href="ideas.html" class="active">💡 Генератор идей</a>
                 <a href="spec.html">📐 Спецификация</a>
+                <a href="dev.html">⚙️ Разработка</a>
             </div>
         </nav>
 
-        <!-- КАРТОЧКА -->
         <div class="card">
 
             <h1>
                 <span>💡 Генератор</span> идей для игры
             </h1>
-            <div class="subtitle">10 способов придумать крутую концепцию — для школьников 12–15 лет</div>
+            <div class="subtitle">10 способов придумать крутую концепцию</div>
 
-            <!-- ТЕОРИЯ -->
             <div class="theory-grid">
 
                 <div class="theory-card">
@@ -414,8 +402,8 @@
                 <div class="theory-card">
                     <span class="emoji">🕹️</span>
                     <h3>Игра в игре</h3>
-                    <p>Персонаж играет в другую игру — и вдруг происходит что-то странное.</p>
-                    <div class="example"><strong>Пример:</strong> Школьник играет в аркаду, а герой выпрыгивает из экрана.</div>
+                    <p>Персонаж играет в игру внутри игры — это создаёт слои и сюрпризы.</p>
+                    <div class="example"><strong>Пример:</strong> В приключенческой игре ты находишь старую аркаду, а если пройти её — открывается секретный уровень с бонусами.</div>
                 </div>
 
                 <div class="theory-card">
@@ -441,7 +429,6 @@
 
             </div>
 
-            <!-- ПРАКТИКА -->
             <div class="practice">
                 <h2>🧪 Практическое задание</h2>
                 <p style="color:#b6c8f0; margin-bottom:0.8rem;">Попробуй придумать игру прямо сейчас за 2 минуты!</p>
@@ -506,7 +493,7 @@
                 word2El.textContent = w2;
 
                 const prompts = [
-                    `💡 Игра в жанре  <strong>${genre}</strong>, где главный предмет —  <strong>${w1}</strong>, а цель — найти  <strong>${w2}</strong>.`,
+                    `💡 Игра в жанре <strong>${genre}</strong>, где главный предмет — <strong>${w1}</strong>, а цель — найти <strong>${w2}</strong>.`,
                     `🎯 <strong>${genre}</strong> про героя, который использует <strong>${w1}</strong>, чтобы победить с помощью <strong>${w2}</strong>.`,
                     `🌟 Смешай <strong>${genre}</strong> с магией <strong>${w1}</strong> и тайной <strong>${w2}</strong>. Что получится?`,
                     `🚀 <strong>${genre}</strong> в мире, где <strong>${w1}</strong> — это сила, а <strong>${w2}</strong> — ключ к победе.`,
