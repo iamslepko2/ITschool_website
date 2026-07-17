@@ -912,141 +912,158 @@
             </details>
         </div>
 
-        <!-- ===== КОНТАКТНЫЙ БЛОК ===== -->
-        <div class="contact-section" id="contacts">
-            <div class="contact-title">
-                📡 СВЯЖИСЬ С ЦЕНТРОМ УПРАВЛЕНИЯ
-            </div>
-
-            <div class="contact-block">
-                <div class="block-label">▸ ЦЕНТР УПРАВЛЕНИЯ ПОЛЁТОМ</div>
-                <div class="block-title">
-                    <span class="icon">📡</span> СВЯЗЬ С ЦЕНТРОМ УПРАВЛЕНИЯ
-                </div>
-
-                <div class="contact-item">
-                    <span class="emoji">📞</span>
-                    <span class="label">ГОРЯЧАЯ ЛИНИЯ</span>
-                    <span class="value"><a href="tel:+79991234567">+7 (999) 123-45-67</a></span>
-                </div>
-
-                <div class="contact-item">
-                    <span class="emoji">📧</span>
-                    <span class="label">КОСМИЧЕСКАЯ ПОЧТА</span>
-                    <span class="value"><a href="mailto:course@it44.ru">course@it44.ru</a></span>
-                </div>
-
-                <div class="contact-item">
-                    <span class="emoji">💬</span>
-                    <span class="label">БОРТОВОЙ ЧАТ</span>
-                    <span class="value"><a href="#">@it44_course</a></span>
-                </div>
-
-                <div class="status-line">
-                    <span class="dot green"></span>
-                    <span>СИГНАЛ:</span>
-                    <span id="signalText" style="color:#00ff88; min-width:40px;">ОТЛИЧНЫЙ</span>
-                    <div class="signal" id="signalBars">
-                        <span class="bar" id="bar1"></span>
-                        <span class="bar" id="bar2"></span>
-                        <span class="bar" id="bar3"></span>
-                        <span class="bar" id="bar4"></span>
-                        <span class="bar" id="bar5"></span>
+                <!-- ===== КОНТАКТНЫЙ БЛОК ===== -->
+                <div class="contact-section" id="contacts">
+                    <div class="contact-title">
+                        📡 СВЯЖИСЬ С ЦЕНТРОМ УПРАВЛЕНИЯ
+                    </div>
+        
+                    <div class="contact-block">
+                        <div class="block-label">▸ ЦЕНТР УПРАВЛЕНИЯ ПОЛЁТОМ</div>
+                        <div class="block-title">
+                            <span class="icon">📡</span> СВЯЗЬ С ЦЕНТРОМ УПРАВЛЕНИЯ
+                        </div>
+        
+                        <!-- Телефон -->
+                        <div class="contact-item">
+                            <span class="emoji">📞</span>
+                            <span class="label">ТЕЛЕФОН</span>
+                            <span class="value"><a href="tel:+79159104874">+7 (915) 910-48-74</a></span>
+                        </div>
+        
+                        <!-- Почта -->
+                        <div class="contact-item">
+                            <span class="emoji">📧</span>
+                            <span class="label">ПОЧТА</span>
+                            <span class="value"><a href="mailto:dovitsh@kosgos.ru">dovitsh@kosgos.ru</a></span>
+                        </div>
+        
+                        <!-- ВКонтакте -->
+                        <div class="contact-item">
+                            <span class="emoji">📱</span>
+                            <span class="label">ВКОНТАКТЕ</span>
+                            <span class="value"><a href="https://vk.ru/doditschool1" target="_blank">vk.com/doditschool1</a></span>
+                        </div>
+        
+                        <!-- MAX (менеджер) — длинная ссылка заменена на короткое имя -->
+                        <div class="contact-item">
+                            <span class="emoji">👤</span>
+                            <span class="label">МЕНЕДЖЕР</span>
+                            <span class="value"><a href="https://max.ru/u/f9LHodD0cOKMTGQrdYvfynO8wJyBz9Dx4IzAx58_qRz3iFeNgdyFelfWF1s" target="_blank">Летняя IT школа в Max</a></span>
+                        </div>
+        
+                        <!-- MAX (чат) — длинная ссылка заменена на короткое имя -->
+                        <div class="contact-item">
+                            <span class="emoji">💬</span>
+                            <span class="label">ЧАТ</span>
+                            <span class="value"><a href="https://max.ru/join/a_GSOeTP7LQEsQIXccy81haeFrfgBAsOHVQBKTQrJxo" target="_blank">Чат летней IT школы</a></span>
+                        </div>
+        
+                        <div class="status-line">
+                            <span class="dot green"></span>
+                            <span>СИГНАЛ:</span>
+                            <span id="signalText" style="color:#00ff88; min-width:40px;">ОТЛИЧНЫЙ</span>
+                            <div class="signal" id="signalBars">
+                                <span class="bar" id="bar1"></span>
+                                <span class="bar" id="bar2"></span>
+                                <span class="bar" id="bar3"></span>
+                                <span class="bar" id="bar4"></span>
+                                <span class="bar" id="bar5"></span>
+                            </div>
+                        </div>
                     </div>
                 </div>
+        
+                <!-- ===== FOOTER ===== -->
+                <div class="footer">
+                    <div class="stars">
+                        ★ ★ ★ ★ ★
+                    </div>
+                    <div>
+                        <span class="blink">⬤</span> МИССИЯ ГОТОВА К СТАРТУ
+                    </div>
+                    <a href="#" class="github-link">📦 GitHub Pages</a>
+                </div>
+        
             </div>
-        </div>
-
-        <!-- ===== FOOTER ===== -->
-        <div class="footer">
-            <div class="stars">
-                ★ ★ ★ ★ ★
-            </div>
-            <div>
-                <span class="blink">⬤</span> МИССИЯ ГОТОВА К СТАРТУ
-            </div>
-            <a href="#" class="github-link">📦 GitHub Pages</a>
-        </div>
-
-    </div>
-
-    <script>
-        (function() {
-            // === СИГНАЛ ===
-            const bars = [
-                document.getElementById('bar1'),
-                document.getElementById('bar2'),
-                document.getElementById('bar3'),
-                document.getElementById('bar4'),
-                document.getElementById('bar5')
-            ];
-            const signalText = document.getElementById('signalText');
-
-            let level = 5;
-            let direction = -1;
-
-            const maskMap = {
-                0: [0, 0, 0, 0, 0],
-                1: [1, 0, 0, 0, 0],
-                2: [1, 1, 0, 0, 0],
-                3: [1, 1, 1, 0, 0],
-                4: [1, 1, 1, 1, 0],
-                5: [1, 1, 1, 1, 1]
-            };
-
-            function updateBars() {
-                const mask = maskMap[level] || maskMap[0];
-                bars.forEach((bar, index) => {
-                    if (mask[index] === 1) {
-                        bar.classList.add('active');
-                    } else {
-                        bar.classList.remove('active');
+        
+            <script>
+                (function() {
+                    // === СИГНАЛ ===
+                    const bars = [
+                        document.getElementById('bar1'),
+                        document.getElementById('bar2'),
+                        document.getElementById('bar3'),
+                        document.getElementById('bar4'),
+                        document.getElementById('bar5')
+                    ];
+                    const signalText = document.getElementById('signalText');
+        
+                    let level = 5;
+                    let direction = -1;
+        
+                    const maskMap = {
+                        0: [0, 0, 0, 0, 0],
+                        1: [1, 0, 0, 0, 0],
+                        2: [1, 1, 0, 0, 0],
+                        3: [1, 1, 1, 0, 0],
+                        4: [1, 1, 1, 1, 0],
+                        5: [1, 1, 1, 1, 1]
+                    };
+        
+                    function updateBars() {
+                        const mask = maskMap[level] || maskMap[0];
+                        bars.forEach((bar, index) => {
+                            if (mask[index] === 1) {
+                                bar.classList.add('active');
+                            } else {
+                                bar.classList.remove('active');
+                            }
+                        });
+        
+                        if (level >= 4) {
+                            signalText.textContent = 'ОТЛИЧНЫЙ';
+                            signalText.style.color = '#00ff88';
+                        } else if (level >= 3) {
+                            signalText.textContent = 'ХОРОШИЙ';
+                            signalText.style.color = '#88ff44';
+                        } else if (level >= 2) {
+                            signalText.textContent = 'СРЕДНИЙ';
+                            signalText.style.color = '#ffcc00';
+                        } else if (level >= 1) {
+                            signalText.textContent = 'СЛАБЫЙ';
+                            signalText.style.color = '#ff8800';
+                        } else {
+                            signalText.textContent = 'ПОТЕРЯН';
+                            signalText.style.color = '#ff0044';
+                        }
                     }
-                });
-
-                if (level >= 4) {
-                    signalText.textContent = 'ОТЛИЧНЫЙ';
-                    signalText.style.color = '#00ff88';
-                } else if (level >= 3) {
-                    signalText.textContent = 'ХОРОШИЙ';
-                    signalText.style.color = '#88ff44';
-                } else if (level >= 2) {
-                    signalText.textContent = 'СРЕДНИЙ';
-                    signalText.style.color = '#ffcc00';
-                } else if (level >= 1) {
-                    signalText.textContent = 'СЛАБЫЙ';
-                    signalText.style.color = '#ff8800';
-                } else {
-                    signalText.textContent = 'ПОТЕРЯН';
-                    signalText.style.color = '#ff0044';
-                }
-            }
-
-            function updateLevel() {
-                level += direction;
-                if (level >= 5) { level = 5;
-                    direction = -1; } else if (level <= 0) { level = 0;
-                    direction = 1; }
-                if (Math.random() < 0.2) return;
-                updateBars();
-            }
-
-            level = 5;
-            direction = -1;
-            updateBars();
-            setInterval(updateLevel, 1200);
-
-            // === Плавный скролл ===
-            const contactBtn = document.getElementById('contactBtn');
-            const contactSection = document.getElementById('contacts');
-            if (contactBtn && contactSection) {
-                contactBtn.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                });
-            }
-        })();
-    </script>
-
-</body>
-</html>
+        
+                    function updateLevel() {
+                        level += direction;
+                        if (level >= 5) { level = 5;
+                            direction = -1; } else if (level <= 0) { level = 0;
+                            direction = 1; }
+                        if (Math.random() < 0.2) return;
+                        updateBars();
+                    }
+        
+                    level = 5;
+                    direction = -1;
+                    updateBars();
+                    setInterval(updateLevel, 1200);
+        
+                    // === Плавный скролл ===
+                    const contactBtn = document.getElementById('contactBtn');
+                    const contactSection = document.getElementById('contacts');
+                    if (contactBtn && contactSection) {
+                        contactBtn.addEventListener('click', function(e) {
+                            e.preventDefault();
+                            contactSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        });
+                    }
+                })();
+            </script>
+        
+        </body>
+        </html>
