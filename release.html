@@ -1,0 +1,812 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Релиз и публикация игры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b1120 0%, #19233c 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+        }
+
+        .top-nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #eef4ff;
+            letter-spacing: -0.02em;
+        }
+
+        .top-nav .logo span {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .top-nav .links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .top-nav .links a {
+            color: #9bb1e0;
+            text-decoration: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .top-nav .links a:hover {
+            background: rgba(100, 150, 255, 0.15);
+            border-color: rgba(130, 170, 255, 0.3);
+            color: #d6e2ff;
+        }
+
+        .top-nav .links a.active {
+            background: rgba(100, 150, 255, 0.2);
+            border-color: #7f9cf5;
+            color: #f0f4ff;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            padding: 2.5rem 2.5rem 2.5rem;
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #f0f4ff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        h1 .gradient-text {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        h1 .icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #f0f4ff;
+        }
+
+        .subtitle {
+            color: #8aa0d0;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section h2 {
+            color: #eef4ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .section h2 .badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(100, 150, 255, 0.15);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            color: #b3ccff;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section p {
+            color: #b6c8f0;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .section p strong {
+            color: #d6e2ff;
+        }
+
+        /* ===== КАРТОЧКИ ===== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-card {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.2s;
+        }
+
+        .info-card:hover {
+            background: rgba(32, 48, 80, 0.6);
+            transform: translateY(-2px);
+            border-color: rgba(130, 170, 255, 0.15);
+        }
+
+        .info-card .icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-card h4 {
+            color: #eef4ff;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-card p {
+            color: #b6c8f0;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            opacity: 0.85;
+            margin: 0;
+        }
+
+        /* ===== ИНСТРУКЦИЯ ===== */
+        .steps-list {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 0.5rem;
+        }
+
+        .steps-list .step-item {
+            display: flex;
+            gap: 1.2rem;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 1rem;
+            margin-bottom: 0.6rem;
+            transition: all 0.2s;
+            border-left: 3px solid transparent;
+        }
+
+        .steps-list .step-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+            border-left-color: #4f72b0;
+        }
+
+        .steps-list .step-item .step-num {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #7f9cf5;
+            flex-shrink: 0;
+            min-width: 2rem;
+        }
+
+        .steps-list .step-item .step-content {
+            flex: 1;
+        }
+
+        .steps-list .step-item .step-content h4 {
+            color: #eef4ff;
+            font-size: 1.05rem;
+            font-weight: 600;
+        }
+
+        .steps-list .step-item .step-content p {
+            color: #b6c8f0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            opacity: 0.85;
+            margin: 0.2rem 0 0 0;
+        }
+
+        .steps-list .step-item .step-content .code-block {
+            margin-top: 0.4rem;
+            padding: 0.4rem 0.8rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 0.6rem;
+            color: #b3ccff;
+            font-family: monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+
+        /* ===== ПРАКТИЧЕСКОЕ ЗАДАНИЕ ===== */
+        .practice-task {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 1rem;
+        }
+
+        .practice-task .task-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .practice-task .task-header h3 {
+            color: #eef4ff;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .practice-task .task-desc {
+            color: #b6c8f0;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .task-example {
+            background: rgba(60, 100, 200, 0.06);
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid #4f72b0;
+            margin-bottom: 1.2rem;
+        }
+
+        .task-example .example-label {
+            color: #7f9cf5;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .task-example .example-text {
+            color: #b6c8f0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-top: 0.2rem;
+        }
+
+        .task-example .example-text strong {
+            color: #d6e2ff;
+        }
+
+        .task-input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .task-input-area textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.8rem;
+            color: #eef4ff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .task-input-area textarea:focus {
+            border-color: #7f9cf5;
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.1);
+        }
+
+        .task-input-area textarea::placeholder {
+            color: #5b72a3;
+        }
+
+        .task-buttons {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4f72b0, #2a4bb0);
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(50, 90, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(50, 90, 255, 0.35);
+            background: linear-gradient(135deg, #5a7ec9, #3455c4);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #b6c8f0;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .task-result {
+            margin-top: 1rem;
+            padding: 1rem 1.2rem;
+            background: rgba(60, 100, 200, 0.06);
+            border-radius: 1rem;
+            border-left: 3px solid #7f9cf5;
+            color: #b6c8f0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .task-result.active {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .task-result strong {
+            color: #d6e2ff;
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(-6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #5b72a3;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 1.5rem;
+        }
+
+        .footer a {
+            color: #7f9cf5;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #b3ccff;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem 1rem;
+                border-radius: 2rem;
+            }
+            .top-nav {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+            .top-nav .links {
+                justify-content: center;
+            }
+            .top-nav .links a {
+                font-size: 0.85rem;
+                padding: 0.3rem 0.9rem;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .steps-list {
+                padding: 1.2rem 1rem;
+            }
+            .steps-list .step-item {
+                flex-direction: column;
+                gap: 0.3rem;
+                padding: 0.6rem 0.8rem;
+            }
+            .practice-task {
+                padding: 1.2rem 1rem;
+            }
+            .task-buttons {
+                flex-direction: column;
+            }
+            .task-buttons .btn-primary,
+            .task-buttons .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="top-nav">
+            <div class="logo">🎮 <span>GameDev</span> карта</div>
+            <div class="links">
+                <a href="index.html">🚀 Дорожная карта</a>
+                <a href="roles.html">👥 Роли</a>
+                <a href="ideas.html">💡 Генератор идей</a>
+                <a href="spec.html">📐 Спецификация</a>
+                <a href="dev.html">⚙️ Разработка</a>
+                <a href="test.html">🧪 Тестирование</a>
+                <a href="release.html" class="active">🚀 Релиз</a>
+            </div>
+        </nav>
+
+        <div class="card">
+
+            <h1>
+                <span class="icon">🚀</span>
+                <span class="gradient-text">Релиз</span> и публикация игры
+            </h1>
+            <div class="subtitle">Как превратить код в игру, в которую можно играть по ссылке</div>
+
+            <!-- ===== ЧТО ТАКОЕ PWA ===== -->
+            <div class="section">
+                <h2>
+                    📱 Что такое PWA
+                    <span class="badge">Progressive Web App</span>
+                </h2>
+                <p>
+                    <strong>PWA</strong> (Progressive Web App) — это сайт, который ведёт себя как <strong>настоящее приложение</strong>.
+                    Его можно установить на телефон, и он будет работать <strong>без интернета</strong>.
+                </p>
+                <p>
+                    Для этого нужны две специальные штуки:
+                </p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <span class="icon">📄</span>
+                        <h4>manifest.json</h4>
+                        <p>Файл с настройками: иконка, название, цвет фона, тема. Говорит браузеру, как показывать приложение.</p>
+                    </div>
+                    <div class="info-card">
+                        <span class="icon">⚙️</span>
+                        <h4>Service Worker</h4>
+                        <p>Скрипт, который кеширует файлы игры. Позволяет играть даже без интернета — как загруженное приложение.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== КАК СДЕЛАТЬ PWA ===== -->
+            <div class="section">
+                <h2>
+                    🤖 Делаем PWA через нейросеть
+                    <span class="badge">важно</span>
+                </h2>
+                <p>
+                    Ты уже написал игру — осталось превратить её в PWA. Это можно сделать с помощью нейросети!
+                </p>
+                <p>
+                    <strong>Задание:</strong> Зайди в любую нейросеть (ChatGPT, DeepSeek, Claude) и попроси её <strong>добавить PWA-функциональность</strong> в твою игру.
+                </p>
+
+                <div class="steps-list">
+                    <div class="step-item">
+                        <span class="step-num">1</span>
+                        <div class="step-content">
+                            <h4>Скопируй код игры</h4>
+                            <p>Возьми свой HTML-файл с игрой (или все файлы проекта).</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">2</span>
+                        <div class="step-content">
+                            <h4>Запроси у нейросети</h4>
+                            <p>Введи промпт:</p>
+                            <div class="code-block">Сделай из этой игры PWA-приложение. Добавь манифест manifest.json и service-worker.js. Настрой кеширование, чтобы игра работала офлайн. Сделай иконку для приложения.</div>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">3</span>
+                        <div class="step-content">
+                            <h4>Скопируй ответ</h4>
+                            <p>Нейросеть создаст файлы: <strong>manifest.json</strong>, <strong>service-worker.js</strong> и обновлённый <strong>index.html</strong>.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ПУБЛИКАЦИЯ ===== -->
+            <div class="section">
+                <h2>
+                    🌐 Публикация на GitHub Pages
+                    <span class="badge">пошагово</span>
+                </h2>
+                <p>
+                    Теперь нужно выложить игру в интернет, чтобы в неё могли играть друзья.
+                </p>
+
+                <div class="steps-list">
+                    <div class="step-item">
+                        <span class="step-num">1</span>
+                        <div class="step-content">
+                            <h4>Создай репозиторий на GitHub</h4>
+                            <p>Зайди на <strong>github.com</strong>, нажми «New repository». Назови его, например, <code>my-game</code>.</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">2</span>
+                        <div class="step-content">
+                            <h4>Залей файлы</h4>
+                            <p>Скопируй все файлы игры в репозиторий: <strong>index.html</strong>, <strong>manifest.json</strong>, <strong>service-worker.js</strong>, <strong>style.css</strong>, <strong>script.js</strong>.</p>
+                            <p style="margin-top:0.3rem; font-size:0.85rem; color:#5b72a3;">📌 Можно загрузить через интерфейс GitHub (кнопка «Add file») или через консоль (git push).</p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">3</span>
+                        <div class="step-content">
+                            <h4>Включи GitHub Pages</h4>
+                            <p>Зайди в <strong>Settings → Pages</strong>. В разделе «Branch» выбери <strong>main</strong> и нажми «Save».</p>
+                            <p style="margin-top:0.3rem; font-size:0.85rem; color:#5b72a3;">Через минуту игра будет доступна по ссылке: <code>https://твой-логин.github.io/my-game/</code></p>
+                        </div>
+                    </div>
+                    <div class="step-item">
+                        <span class="step-num">4</span>
+                        <div class="step-content">
+                            <h4>Создай QR-код</h4>
+                            <p>Зайди на <strong>qr-code-generator.com</strong> или любой другой генератор. Вставь ссылку на игру — и QR-код готов!</p>
+                            <p style="margin-top:0.3rem; font-size:0.85rem; color:#5b72a3;">📱 Теперь друзья могут отсканировать QR-код и сразу открыть игру на телефоне.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ПРАКТИЧЕСКОЕ ЗАДАНИЕ ===== -->
+            <div class="section">
+                <h2>
+                    📋 Практика
+                    <span class="badge">исследование</span>
+                </h2>
+                <p>
+                    Твоя игра уже опубликована. Но что, если ты хочешь выпустить её в <strong>магазин приложений</strong>?
+                </p>
+
+                <div class="practice-task">
+                    <div class="task-header">
+                        <h3>🔍 Исследование: публикация в магазинах</h3>
+                    </div>
+
+                    <div class="task-desc">
+                        <strong>Задание:</strong> Узнай, что нужно для публикации игры в официальных магазинах приложений.
+                    </div>
+
+                    <div class="task-example">
+                        <div class="example-label">📌 ЧТО НУЖНО УЗНАТЬ</div>
+                        <div class="example-text">
+                            <strong>Для Google Play (Android):</strong><br>
+                            • Регистрация разработчика (стоимость)<br>
+                            • Сборка APK / AAB<br>
+                            • Иконка, скриншоты, описание<br>
+                            • Возрастной рейтинг<br><br>
+                            <strong>Для App Store (iOS):</strong><br>
+                            • Регистрация разработчика (стоимость)<br>
+                            • Сборка через Xcode<br>
+                            • Требования к дизайну и приватности<br>
+                            • Модерация
+                        </div>
+                    </div>
+
+                    <div class="task-input-area">
+                        <textarea id="researchReport" placeholder="Напиши, что ты узнал о публикации в магазинах приложений&#10;&#10;Google Play: ...&#10;App Store: ..."></textarea>
+
+                        <div class="task-buttons">
+                            <button class="btn-primary" id="analyzeBtn">📊 Показать разбор</button>
+                            <button class="btn-secondary" id="clearBtn">🗑️ Очистить</button>
+                            <button class="btn-secondary" id="exampleBtn">📋 Вставить пример</button>
+                        </div>
+
+                        <div class="task-result" id="taskResult">
+                            <strong>✅ Отличное исследование!</strong>
+                            <div id="taskResultContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                🚀 Сделано для <a href="#">GitHub Pages</a> · Игра готова, мир ждёт! 🎮
+            </div>
+
+        </div>
+    </div>
+
+    <script src="access.js"></script>
+
+    <script>
+        (function() {
+            const input = document.getElementById('researchReport');
+            const analyzeBtn = document.getElementById('analyzeBtn');
+            const clearBtn = document.getElementById('clearBtn');
+            const exampleBtn = document.getElementById('exampleBtn');
+            const result = document.getElementById('taskResult');
+            const resultContent = document.getElementById('taskResultContent');
+
+            function analyze() {
+                const text = input.value.trim();
+                if (!text) {
+                    result.classList.remove('active');
+                    return;
+                }
+
+                const hasGoogle = text.match(/google|play|android|apk|aab|регистр|стоимость|плат/i);
+                const hasApple = text.match(/apple|ios|app store|xcode|moder/i);
+                const hasPrice = text.match(/стоимость|цен|плат|$\d|доллар|рубл/i);
+                const hasSteps = text.match(/нужно|необходим|требован|этап|шаг/i);
+
+                let score = 0;
+                const details = [];
+
+                if (hasGoogle) {
+                    score++;
+                    details.push('✅ Есть информация о Google Play');
+                } else {
+                    details.push('❌ Нет информации о Google Play');
+                }
+
+                if (hasApple) {
+                    score++;
+                    details.push('✅ Есть информация об App Store');
+                } else {
+                    details.push('❌ Нет информации об App Store');
+                }
+
+                if (hasPrice) {
+                    score++;
+                    details.push('✅ Упомянута стоимость регистрации');
+                } else {
+                    details.push('❌ Не указана стоимость регистрации');
+                }
+
+                if (hasSteps) {
+                    score++;
+                    details.push('✅ Описаны шаги для публикации');
+                } else {
+                    details.push('❌ Не описаны шаги публикации');
+                }
+
+                const total = text.split('\n').filter(line => line.trim().length > 0).length;
+
+                let grade = '🟡 Сыровато';
+                let comment = 'Попробуй добавить больше деталей. Узнай про стоимость регистрации и требования к приложениям.';
+
+                if (score >= 4) {
+                    grade = '🟢 Отлично!';
+                    comment = 'Полное исследование! Ты готов к публикации в магазинах.';
+                } else if (score >= 3) {
+                    grade = '🟡 Хорошо';
+                    comment = 'Неплохо! Добавь информацию о том, что нужно для публикации.';
+                } else if (score >= 2) {
+                    grade = '🟠 Можно лучше';
+                    comment = 'Исследуй подробнее требования Google Play и App Store.';
+                }
+
+                const html = `
+                    <p>📝 <strong>Объём:</strong> ${total} строк</p>
+                    <p>📊 <strong>Оценка:</strong> ${grade}</p>
+                    <p>💬 <strong>Комментарий:</strong> ${comment}</p>
+                    <p style="margin-top:0.5rem; font-size:0.9rem; opacity:0.8;">
+                        📌 <strong>Что проверено:</strong>
+                    </p>
+                    <ul style="list-style:none; margin-top:0.3rem; font-size:0.9rem;">
+                        ${details.map(d => `<li style="color:#b6c8f0; padding:0.1rem 0;">${d}</li>`).join('')}
+                    </ul>
+                    <p style="margin-top:0.5rem; font-size:0.9rem; opacity:0.8;">
+                        💡 Чем больше деталей, тем легче будет опубликовать игру в магазине!
+                    </p>
+                `;
+
+                resultContent.innerHTML = html;
+                result.classList.add('active');
+            }
+
+            function clearInput() {
+                input.value = '';
+                result.classList.remove('active');
+            }
+
+            function insertExample() {
+                input.value = `Google Play (Android):
+        • Регистрация разработчика — $25 (одноразово)
+        • Нужно собрать APK или AAB файл
+        • Требуется иконка 512×512, скриншоты, описание
+        • Возрастной рейтинг (PEGI / ESRB)
+        • Модерация занимает от нескольких часов до нескольких дней
+
+        App Store (iOS):
+        • Регистрация разработчика — $99 в год
+        • Нужно собрать приложение через Xcode
+        • Требуется согласие на политику приватности
+        • Строгие требования к дизайну и интерфейсу
+        • Модерация может занять несколько дней
+
+        Общее:
+        • Нужно подготовить описание и скриншоты
+        • Игра должна проходить модерацию
+        • После публикации можно получать отзывы и обновлять игру`;
+                analyze();
+            }
+
+            analyzeBtn.addEventListener('click', analyze);
+            clearBtn.addEventListener('click', clearInput);
+            exampleBtn.addEventListener('click', insertExample);
+
+            let timeoutId;
+            input.addEventListener('input', function() {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(analyze, 500);
+            });
+
+            setTimeout(insertExample, 400);
+        })();
+    </script>
+</body>
+</html>

@@ -88,6 +88,7 @@
             box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
         }
 
+        /* ===== ИСПРАВЛЕННЫЙ ЗАГОЛОВОК ===== */
         h1 {
             font-size: 2rem;
             font-weight: 600;
@@ -99,11 +100,17 @@
             flex-wrap: wrap;
         }
 
-        h1 span {
+        h1 .gradient-text {
             background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
             -webkit-background-clip: text;
             background-clip: text;
             color: transparent;
+        }
+
+        h1 .icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #f0f4ff;
         }
 
         .subtitle {
@@ -342,16 +349,21 @@
             <div class="logo">🎮 <span>GameDev</span> карта</div>
             <div class="links">
                 <a href="index.html">🚀 Дорожная карта</a>
+                <a href="roles.html">👥 Роли</a>
                 <a href="ideas.html" class="active">💡 Генератор идей</a>
                 <a href="spec.html">📐 Спецификация</a>
                 <a href="dev.html">⚙️ Разработка</a>
+                <a href="test.html">🧪 Тестирование</a>
+                <a href="release.html">🚀 Релиз</a>
             </div>
         </nav>
 
         <div class="card">
 
+            <!-- ===== ИСПРАВЛЕННЫЙ ЗАГОЛОВОК ===== -->
             <h1>
-                <span>💡 Генератор</span> идей для игры
+                <span class="icon">💡</span>
+                <span class="gradient-text">Генератор</span> идей для игры
             </h1>
             <div class="subtitle">10 способов придумать крутую концепцию</div>
 
@@ -459,6 +471,8 @@
 
         </div>
     </div>
+
+    <script src="access.js"></script>
 
     <script>
         (function() {

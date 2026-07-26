@@ -119,6 +119,62 @@
             opacity: 0.8;
         }
 
+        /* ===== БЛОК ВВОДА НАЗВАНИЯ ИГРЫ ===== */
+        .team-setup {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.2rem;
+            padding: 1rem 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .team-setup label {
+            color: #b6c8f0;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+        .team-setup input {
+            flex: 1;
+            padding: 0.5rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.8rem;
+            color: #eef4ff;
+            font-size: 0.95rem;
+            outline: none;
+            min-width: 150px;
+        }
+        .team-setup input:focus {
+            border-color: #7f9cf5;
+        }
+        .team-setup .btn-team {
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, #4f72b0, #2a4bb0);
+            border: none;
+            color: white;
+            font-weight: 600;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+        .team-setup .btn-team:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(50, 90, 255, 0.35);
+        }
+        .team-setup .progress-mini {
+            color: #5b72a3;
+            font-size: 0.85rem;
+            margin-left: auto;
+        }
+        .team-setup .progress-mini strong {
+            color: #b3ccff;
+        }
+
+        /* ===== ДОРОЖНАЯ КАРТА ===== */
         .timeline {
             display: flex;
             flex-direction: column;
@@ -331,6 +387,15 @@
             .timeline::before {
                 left: 0.2rem;
             }
+            .team-setup {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.5rem;
+            }
+            .team-setup .progress-mini {
+                margin-left: 0;
+                text-align: center;
+            }
         }
     </style>
 </head>
@@ -341,13 +406,24 @@
             <div class="logo">🎮 <span>GameDev</span> карта</div>
             <div class="links">
                 <a href="index.html" class="active">🚀 Дорожная карта</a>
+                <a href="roles.html">👥 Роли</a>
                 <a href="ideas.html">💡 Генератор идей</a>
                 <a href="spec.html">📐 Спецификация</a>
                 <a href="dev.html">⚙️ Разработка</a>
+                <a href="test.html">🧪 Тестирование</a>
+                <a href="release.html">🚀 Релиз</a>
             </div>
         </nav>
 
         <div class="card">
+
+            <!-- БЛОК ВВОДА НАЗВАНИЯ ИГРЫ -->
+            <div class="team-setup" id="teamSetup">
+                <label>🏷️ Название:</label>
+                <input type="text" id="teamNameInput" placeholder="Например: «Космический сборщик»">
+                <button class="btn-team" id="setTeamBtn">✅ Установить</button>
+                <span class="progress-mini" id="progressMini">📊 <strong>0</strong> / 6 этапов</span>
+            </div>
 
             <h1>
                 <span class="icon">🎮</span>
@@ -358,56 +434,62 @@
             <div class="timeline" id="timeline"></div>
 
             <div class="footer">
-                🚀 Сделано для <a href="#">GitHub Pages</a> · Играй и твори! 🎮
+                🚀 Сделано для GitHub Pages · Играй и твори! 🎮
             </div>
 
         </div>
     </div>
 
+    <!-- ПОДКЛЮЧАЕМ ОБЩИЙ СКРИПТ ДОСТУПА -->
+    <script src="access.js"></script>
+
+    <!-- ЛОГИКА ГЛАВНОЙ СТРАНИЦЫ -->
     <script>
         (function() {
+            // === Данные этапов (для отображения) ===
             const stages = [{
                     id: 1,
                     title: 'Выбор концепции игры',
                     icon: '💡',
                     badge: 'I',
-                    desc: 'Придумываем идею: жанр, механики, визуальный стиль. Решаем, что будет интересно и реально сделать за отведённое время.',
-                    summary: '🎯 Придумываем крутую идею для игры: определяем жанр (платформер, квест, аркада), главного героя и основную механику — например, собирать монеты или уворачиваться от препятствий.'
+                    desc: 'Придумываем идею: жанр, механики, визуальный стиль.',
+                    summary: '🎯 Определяем жанр, главного героя и основную механику.'
                 },
                 {
                     id: 2,
                     title: 'Планирование и дизайн',
                     icon: '📐',
                     badge: 'II',
-                    desc: 'Расписываем механику на бумаге, рисуем схемы экранов, продумываем управление и интерфейс для игрока.',
-                    summary: '🗺️ Создаём карту игры: рисуем уровни, продумываем, как игрок будет управлять героем (клавиши WASD или стрелки), какие будут кнопки и очки. Всё на бумаге!'
+                    desc: 'Расписываем механику на бумаге, рисуем схемы экранов.',
+                    summary: '🗺️ Рисуем уровни, продумываем управление и интерфейс.'
                 },
                 {
                     id: 3,
                     title: 'Разработка игры',
                     icon: '⚙️',
                     badge: 'III',
-                    desc: 'Пишем код на чистом JavaScript, создаём игровой цикл, спрайты через Canvas или DOM-элементы и проверяем работу механик.',
-                    summary: '💻 Программируем: пишем код для движения героя, отрисовки объектов, обработки столкновений и подсчёта очков. Используем Canvas для графики — всё в одном файле!'
+                    desc: 'Пишем код на JavaScript, создаём игровой цикл, спрайты.',
+                    summary: '💻 Пишем код для движения героя, отрисовки, столкновений.'
                 },
                 {
                     id: 4,
                     title: 'Ручное тестирование',
                     icon: '🧪',
                     badge: 'IV',
-                    desc: 'Играем сами и даём друзьям поиграть. Ищем баги: неправильные столкновения, зависания, нелогичное поведение и исправляем.',
-                    summary: '🕹️ Тестируем вручную: проходим игру разными способами, пытаемся сломать — выходим за границы, нажимаем все кнопки подряд. Записываем баги и сразу правим код.'
+                    desc: 'Играем сами и даём друзьям поиграть. Ищем баги.',
+                    summary: '🕹️ Проходим игру разными способами, пытаемся сломать.'
                 },
                 {
                     id: 5,
                     title: 'Релиз и презентация',
                     icon: '🚀',
                     badge: 'V',
-                    desc: 'Готовим финальную версию, пишем инструкцию, делаем красивый экран «Победа» и показываем игру друзьям или одноклассникам.',
-                    summary: '🏆 Выкладываем игру: создаём стартовый экран с названием, добавляем кнопку «Старт», делаем финальный счёт и делимся ссылкой. Можно даже устроить турнир!'
+                    desc: 'Готовим финальную версию и показываем игру друзьям.',
+                    summary: '🏆 Выкладываем игру, создаём стартовый экран и делимся ссылкой.'
                 }
             ];
 
+            // === Отображение дорожной карты ===
             const timeline = document.getElementById('timeline');
             timeline.innerHTML = '';
 
@@ -474,13 +556,13 @@
                 });
             });
 
+            // Активируем первый этап
             const firstStep = document.querySelector('.step');
             if (firstStep) {
-                setTimeout(() => {
-                    firstStep.click();
-                }, 300);
+                setTimeout(() => firstStep.click(), 300);
             }
 
+            // Двойной клик — сброс
             document.addEventListener('dblclick', function() {
                 document.querySelectorAll('.step').forEach(s => {
                     s.style.borderColor = 'rgba(255,255,255,0.04)';
@@ -492,6 +574,53 @@
                 const first = document.querySelector('.step');
                 if (first) first.click();
             });
+
+            // === РАБОТА С НАЗВАНИЕМ ИГРЫ ===
+            const teamInput = document.getElementById('teamNameInput');
+            const setTeamBtn = document.getElementById('setTeamBtn');
+            const progressMini = document.getElementById('progressMini');
+
+            function updateProgress() {
+                const team = localStorage.getItem('gamedev_team') || '';
+                const progress = JSON.parse(localStorage.getItem('gamedev_progress') || '[]');
+                const total = 6;
+                const done = progress.length;
+                progressMini.innerHTML = `📊 <strong>${done}</strong> / ${total} этапов`;
+                if (team) {
+                    teamInput.value = team;
+                }
+            }
+
+            function setTeam() {
+                const name = teamInput.value.trim();
+                if (name) {
+                    localStorage.setItem('gamedev_team', name);
+                    updateProgress();
+                    console.log(`✅ Название установлено: "${name}"`);
+                } else {
+                    alert('Введите название !');
+                }
+            }
+
+            setTeamBtn.addEventListener('click', setTeam);
+            teamInput.addEventListener('keydown', (e) => {
+                if (e.key === 'Enter') setTeam();
+            });
+
+            // Восстанавливаем сохранённое название
+            const savedTeam = localStorage.getItem('gamedev_team');
+            if (savedTeam) {
+                teamInput.value = savedTeam;
+            }
+            updateProgress();
+
+            // Слушаем изменения прогресса
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'gamedev_progress' || e.key === 'gamedev_team') {
+                    updateProgress();
+                }
+            });
+
         })();
     </script>
 </body>

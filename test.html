@@ -1,0 +1,1021 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Тестирование игры</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Roboto, system-ui, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: linear-gradient(145deg, #0b1120 0%, #19233c 100%);
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            padding: 2rem 1rem;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+        }
+
+        .top-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            padding: 0 0.5rem;
+        }
+
+        .top-nav .logo {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #eef4ff;
+            letter-spacing: -0.02em;
+        }
+
+        .top-nav .logo span {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .top-nav .links {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .top-nav .links a {
+            color: #9bb1e0;
+            text-decoration: none;
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            transition: all 0.2s;
+            font-size: 0.95rem;
+        }
+
+        .top-nav .links a:hover {
+            background: rgba(100, 150, 255, 0.15);
+            border-color: rgba(130, 170, 255, 0.3);
+            color: #d6e2ff;
+        }
+
+        .top-nav .links a.active {
+            background: rgba(100, 150, 255, 0.2);
+            border-color: #7f9cf5;
+            color: #f0f4ff;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 3rem;
+            padding: 2.5rem 2.5rem 2.5rem;
+            box-shadow: 0 25px 50px -8px rgba(0, 0, 0, 0.6), inset 0 0 0 1px rgba(255, 255, 255, 0.06);
+        }
+
+        h1 {
+            font-size: 2rem;
+            font-weight: 600;
+            color: #f0f4ff;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+        }
+
+        h1 .gradient-text {
+            background: linear-gradient(135deg, #b7c9ff, #8aa4f8);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        h1 .icon {
+            font-size: 2rem;
+            line-height: 1;
+            color: #f0f4ff;
+        }
+
+        .subtitle {
+            color: #8aa0d0;
+            font-size: 1.05rem;
+            margin-bottom: 2rem;
+            opacity: 0.8;
+        }
+
+        .section {
+            margin-bottom: 2.5rem;
+        }
+
+        .section h2 {
+            color: #eef4ff;
+            font-size: 1.5rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .section h2 .badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(100, 150, 255, 0.15);
+            padding: 0.2rem 0.8rem;
+            border-radius: 30px;
+            color: #b3ccff;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .section p {
+            color: #b6c8f0;
+            font-size: 1rem;
+            line-height: 1.7;
+            margin-bottom: 0.8rem;
+            opacity: 0.9;
+        }
+
+        .section p strong {
+            color: #d6e2ff;
+        }
+
+        /* ===== КАРТОЧКИ ===== */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .info-card {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.2rem;
+            padding: 1.2rem 1.4rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            transition: all 0.2s;
+        }
+
+        .info-card:hover {
+            background: rgba(32, 48, 80, 0.6);
+            transform: translateY(-2px);
+            border-color: rgba(130, 170, 255, 0.15);
+        }
+
+        .info-card .icon {
+            font-size: 2rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-card h4 {
+            color: #eef4ff;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+
+        .info-card p {
+            color: #b6c8f0;
+            font-size: 0.88rem;
+            line-height: 1.5;
+            opacity: 0.85;
+            margin: 0;
+        }
+
+        /* ===== КАК ЗАВОДИТЬ БАГИ ===== */
+        .bug-guide {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 0.5rem;
+        }
+
+        .bug-guide h3 {
+            color: #eef4ff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .bug-guide .bug-example {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin: 0.8rem 0;
+        }
+
+        .bug-guide .bug-example .bad {
+            background: rgba(231, 76, 60, 0.06);
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid #e74c3c;
+        }
+
+        .bug-guide .bug-example .good {
+            background: rgba(46, 204, 113, 0.06);
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid #2ecc71;
+        }
+
+        .bug-guide .bug-example .label {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+
+        .bug-guide .bug-example .bad .label {
+            color: #e74c3c;
+        }
+        .bug-guide .bug-example .good .label {
+            color: #2ecc71;
+        }
+
+        .bug-guide .bug-example .text {
+            color: #b6c8f0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+        }
+
+        .bug-guide .bug-example .text strong {
+            color: #d6e2ff;
+        }
+
+        .bug-guide .bug-example .text .highlight {
+            color: #f1c40f;
+        }
+
+        .bug-guide .bug-tip {
+            margin-top: 0.8rem;
+            padding: 0.6rem 1rem;
+            background: rgba(100, 150, 255, 0.06);
+            border-radius: 0.8rem;
+            color: #b3ccff;
+            font-size: 0.9rem;
+            border-left: 2px solid #4f72b0;
+        }
+
+        /* ===== ЧЕК-ЛИСТ ===== */
+        .checklist {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 0.5rem;
+        }
+
+        .checklist h3 {
+            color: #eef4ff;
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .checklist .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.8rem;
+            padding: 0.6rem 0.8rem;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 0.8rem;
+            margin-bottom: 0.4rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .checklist .check-item:hover {
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .checklist .check-item input[type="checkbox"] {
+            width: 20px;
+            height: 20px;
+            margin-top: 0.1rem;
+            accent-color: #4f72b0;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .checklist .check-item label {
+            color: #b6c8f0;
+            font-size: 0.92rem;
+            line-height: 1.5;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .checklist .check-item label strong {
+            color: #d6e2ff;
+        }
+
+        .checklist .check-item.checked label {
+            text-decoration: line-through;
+            opacity: 0.5;
+        }
+
+        .checklist .check-item .cat {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #5b72a3;
+            background: rgba(255, 255, 255, 0.04);
+            padding: 0.1rem 0.6rem;
+            border-radius: 20px;
+            flex-shrink: 0;
+            margin-left: 0.5rem;
+        }
+
+        .checklist .check-stats {
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.04);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .checklist .check-stats .stats-text {
+            color: #5b72a3;
+            font-size: 0.85rem;
+        }
+
+        .checklist .check-stats .stats-text strong {
+            color: #b3ccff;
+        }
+
+        .checklist .check-stats .btn-reset {
+            padding: 0.3rem 1.2rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            color: #5b72a3;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: all 0.2s;
+        }
+
+        .checklist .check-stats .btn-reset:hover {
+            background: rgba(255, 255, 255, 0.08);
+            color: #b6c8f0;
+        }
+
+        /* ===== ПРАКТИЧЕСКОЕ ЗАДАНИЕ ===== */
+        .practice-task {
+            background: rgba(18, 28, 50, 0.5);
+            border-radius: 1.8rem;
+            padding: 1.8rem 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            margin-top: 1rem;
+        }
+
+        .practice-task .task-header {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .practice-task .task-header h3 {
+            color: #eef4ff;
+            font-size: 1.3rem;
+            font-weight: 600;
+        }
+
+        .practice-task .task-desc {
+            color: #b6c8f0;
+            font-size: 0.98rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .task-example {
+            background: rgba(60, 100, 200, 0.06);
+            border-radius: 1rem;
+            padding: 1rem 1.2rem;
+            border-left: 3px solid #4f72b0;
+            margin-bottom: 1.2rem;
+        }
+
+        .task-example .example-label {
+            color: #7f9cf5;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .task-example .example-text {
+            color: #b6c8f0;
+            font-size: 0.92rem;
+            line-height: 1.6;
+            margin-top: 0.2rem;
+        }
+
+        .task-example .example-text strong {
+            color: #d6e2ff;
+        }
+
+        .task-input-area {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .task-input-area textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 0.8rem;
+            color: #eef4ff;
+            font-size: 0.95rem;
+            font-family: inherit;
+            resize: vertical;
+            min-height: 100px;
+            transition: all 0.2s;
+            outline: none;
+        }
+
+        .task-input-area textarea:focus {
+            border-color: #7f9cf5;
+            background: rgba(255, 255, 255, 0.06);
+            box-shadow: 0 0 0 3px rgba(100, 150, 255, 0.1);
+        }
+
+        .task-input-area textarea::placeholder {
+            color: #5b72a3;
+        }
+
+        .task-buttons {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #4f72b0, #2a4bb0);
+            border: none;
+            color: white;
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 4px 14px rgba(50, 90, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+        }
+
+        .btn-primary:hover {
+            transform: scale(1.03);
+            box-shadow: 0 6px 20px rgba(50, 90, 255, 0.35);
+            background: linear-gradient(135deg, #5a7ec9, #3455c4);
+        }
+
+        .btn-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #b6c8f0;
+            font-weight: 500;
+            font-size: 0.95rem;
+            padding: 0.6rem 1.8rem;
+            border-radius: 40px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .task-result {
+            margin-top: 1rem;
+            padding: 1rem 1.2rem;
+            background: rgba(60, 100, 200, 0.06);
+            border-radius: 1rem;
+            border-left: 3px solid #7f9cf5;
+            color: #b6c8f0;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            display: none;
+        }
+
+        .task-result.active {
+            display: block;
+            animation: fadeSlide 0.3s ease;
+        }
+
+        .task-result strong {
+            color: #d6e2ff;
+        }
+
+        @keyframes fadeSlide {
+            0% { opacity: 0; transform: translateY(-6px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .footer {
+            margin-top: 2rem;
+            text-align: center;
+            color: #5b72a3;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            padding-top: 1.5rem;
+        }
+
+        .footer a {
+            color: #7f9cf5;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            color: #b3ccff;
+        }
+
+        @media (max-width: 600px) {
+            .card {
+                padding: 1.5rem 1rem;
+                border-radius: 2rem;
+            }
+            .top-nav {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.8rem;
+            }
+            .top-nav .links {
+                justify-content: center;
+            }
+            .top-nav .links a {
+                font-size: 0.85rem;
+                padding: 0.3rem 0.9rem;
+            }
+            h1 {
+                font-size: 1.6rem;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            .bug-guide .bug-example {
+                grid-template-columns: 1fr;
+            }
+            .checklist {
+                padding: 1.2rem 1rem;
+            }
+            .practice-task {
+                padding: 1.2rem 1rem;
+            }
+            .task-buttons {
+                flex-direction: column;
+            }
+            .task-buttons .btn-primary,
+            .task-buttons .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+            .checklist .check-item {
+                flex-wrap: wrap;
+            }
+            .checklist .check-item .cat {
+                margin-left: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+
+        <nav class="top-nav">
+            <div class="logo">🎮 <span>GameDev</span> карта</div>
+            <div class="links">
+                <a href="index.html">🚀 Дорожная карта</a>
+                <a href="roles.html">👥 Роли</a>
+                <a href="ideas.html">💡 Генератор идей</a>
+                <a href="spec.html">📐 Спецификация</a>
+                <a href="dev.html">⚙️ Разработка</a>
+                <a href="test.html" class="active">🧪 Тестирование</a>
+                <a href="release.html">🚀 Релиз</a>
+            </div>
+        </nav>
+
+        <div class="card">
+
+            <h1>
+                <span class="icon">🧪</span>
+                <span class="gradient-text">Тестирование</span> игры
+            </h1>
+            <div class="subtitle">Как проверить, что игра работает и в неё интересно играть</div>
+
+            <!-- ===== ТЕОРИЯ ===== -->
+            <div class="section">
+                <h2>
+                    🎯 Зачем нужно тестирование
+                    <span class="badge">важно</span>
+                </h2>
+                <p>
+                    <strong>Тестирование</strong> — это процесс проверки игры, чтобы найти ошибки (баги) и убедиться,
+                    что в неё <strong>интересно играть</strong>. Даже самая крутая идея может быть испорчена кривой
+                    физикой, непонятным управлением или скучными уровнями.
+                </p>
+                <p>
+                    В нашем проекте мы будем использовать <strong>ручное тестирование</strong> — ты и твои друзья
+                    просто играете и записываете, что пошло не так.
+                </p>
+
+                <div class="info-grid">
+                    <div class="info-card">
+                        <span class="icon">🐛</span>
+                        <h4>Найти баги</h4>
+                        <p>Ошибки в коде: неправильные столкновения, зависания, неработающие кнопки.</p>
+                    </div>
+                    <div class="info-card">
+                        <span class="icon">🎮</span>
+                        <h4>Проверить геймплей</h4>
+                        <p>Интересно ли играть? Не слишком сложно/легко? Понятно ли, что делать?</p>
+                    </div>
+                    <div class="info-card">
+                        <span class="icon">📱</span>
+                        <h4>Совместимость</h4>
+                        <p>Работает ли игра в разных браузерах, на разных экранах, на телефоне?</p>
+                    </div>
+                    <div class="info-card">
+                        <span class="icon">😊</span>
+                        <h4>Впечатления</h4>
+                        <p>Что игрок чувствует? Вовлекает ли игра? Хочется ли играть ещё?</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== КАК ЗАВОДИТЬ БАГИ ===== -->
+            <div class="section">
+                <h2>
+                    🐛 Как правильно заводить баги
+                    <span class="badge">важно</span>
+                </h2>
+                <p>
+                    Чтобы разработчик мог быстро исправить ошибку, баг нужно описывать <strong>чётко и понятно</strong>.
+                    Вот примеры — как <span style="color:#e74c3c;">НЕ надо</span> и как <span style="color:#2ecc71;">НАДО</span>.
+                </p>
+
+                <div class="bug-guide">
+                    <h3>📋 Пример: баг с астероидами</h3>
+
+                    <div class="bug-example">
+                        <div class="bad">
+                            <span class="label">❌ ПЛОХО</span>
+                            <div class="text">
+                                «Игра глючит, когда астероид прилетает, всё тормозит, непонятно что происходит, а потом корабль пропадает. Короче, всё сломано.»
+                            </div>
+                        </div>
+                        <div class="good">
+                            <span class="label">✅ ХОРОШО</span>
+                            <div class="text">
+                                <strong>Название:</strong> Зависание при столкновении с астероидом<br>
+                                <strong>Шаги:</strong><br>
+                                1. Запустить игру<br>
+                                2. Долететь до астероида на 2-м уровне<br>
+                                3. Столкнуться с астероидом<br>
+                                <strong>Ожидалось:</strong> Корабль взрывается, показывается экран «Игра окончена»<br>
+                                <strong>Реальность:</strong> Игра зависает на <span class="highlight">2 секунды</span>, затем корабль просто исчезает, экран поражения не показывается<br>
+                                <strong>Важность:</strong> 🔴 Высокая — игра становится неиграбельной
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bug-tip">
+                        💡 <strong>Совет:</strong> Чем больше деталей — тем быстрее исправят баг. Указывай шаги, ожидание, реальность и важность!
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ФОРМАТ ТЕСТИРОВАНИЯ ===== -->
+            <div class="section">
+                <h2>
+                    📋 Формат тестирования
+                    <span class="badge">чек-лист</span>
+                </h2>
+                <p>
+                    Мы будем использовать <strong>чек-лист</strong> — список пунктов, которые нужно проверить.
+                    Это самый простой и понятный способ.
+                </p>
+                <p>
+                    Каждый пункт можно отметить как ✅ выполнено или ❌ не выполнено.
+                    Если что-то не работает — записываешь в заметки и потом исправляешь.
+                </p>
+
+                <div class="checklist" id="checklist">
+                    <h3>📝 Чек-лист тестирования игры</h3>
+
+                    <div class="check-item" data-id="1">
+                        <input type="checkbox" id="ch1">
+                        <label for="ch1"><strong>Запуск</strong> — игра открывается без ошибок</label>
+                        <span class="cat">старт</span>
+                    </div>
+
+                    <div class="check-item" data-id="2">
+                        <input type="checkbox" id="ch2">
+                        <label for="ch2"><strong>Управление</strong> — все клавиши работают как задумано</label>
+                        <span class="cat">геймплей</span>
+                    </div>
+
+                    <div class="check-item" data-id="3">
+                        <input type="checkbox" id="ch3">
+                        <label for="ch3"><strong>Движение</strong> — персонаж двигается плавно, без рывков</label>
+                        <span class="cat">геймплей</span>
+                    </div>
+
+                    <div class="check-item" data-id="4">
+                        <input type="checkbox" id="ch4">
+                        <label for="ch4"><strong>Столкновения</strong> — игрок сталкивается с объектами как надо</label>
+                        <span class="cat">геймплей</span>
+                    </div>
+
+                    <div class="check-item" data-id="5">
+                        <input type="checkbox" id="ch5">
+                        <label for="ch5"><strong>Счёт/очки</strong> — очки начисляются и отображаются правильно</label>
+                        <span class="cat">логика</span>
+                    </div>
+
+                    <div class="check-item" data-id="6">
+                        <input type="checkbox" id="ch6">
+                        <label for="ch6"><strong>Уровни</strong> — все уровни загружаются и проходятся</label>
+                        <span class="cat">логика</span>
+                    </div>
+
+                    <div class="check-item" data-id="7">
+                        <input type="checkbox" id="ch7">
+                        <label for="ch7"><strong>Победа/поражение</strong> — экраны победы и поражения показываются</label>
+                        <span class="cat">логика</span>
+                    </div>
+
+                    <div class="check-item" data-id="8">
+                        <input type="checkbox" id="ch8">
+                        <label for="ch8"><strong>Рестарт</strong> — игра перезапускается без ошибок</label>
+                        <span class="cat">интерфейс</span>
+                    </div>
+
+                    <div class="check-item" data-id="9">
+                        <input type="checkbox" id="ch9">
+                        <label for="ch9"><strong>Интерфейс</strong> — все кнопки, меню и надписи видны и работают</label>
+                        <span class="cat">интерфейс</span>
+                    </div>
+
+                    <div class="check-item" data-id="10">
+                        <input type="checkbox" id="ch10">
+                        <label for="ch10"><strong>Впечатления</strong> — в игру интересно играть (спроси у друга!)</label>
+                        <span class="cat">впечатления</span>
+                    </div>
+
+                    <div class="check-stats">
+                        <span class="stats-text">✅ Выполнено: <strong id="checkCount">0</strong> / 10</span>
+                        <button class="btn-reset" id="resetChecklist">🔄 Сбросить</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ===== ПРАКТИЧЕСКОЕ ЗАДАНИЕ ===== -->
+            <div class="section">
+                <h2>
+                    🧪 Практика
+                    <span class="badge">попробуй сам</span>
+                </h2>
+                <p>
+                    Теперь твоя очередь! <strong>Команды меняются играми.</strong>
+                    Нужно поиграть в чужую игру и записать все баги и впечатления.
+                </p>
+
+                <div class="practice-task">
+                    <div class="task-header">
+                        <h3>✍️ Отчёт о тестировании</h3>
+                    </div>
+
+                    <div class="task-desc">
+                        <strong>Инструкция:</strong> После того как поиграешь в игру, запиши:
+                    </div>
+
+                    <div class="task-example">
+                        <div class="example-label">📌 ПРИМЕР</div>
+                        <div class="example-text">
+                            <strong>Игра:</strong> «Космический сборщик»<br>
+                            <strong>Тестировщик:</strong> Фамилия Имя<br><br>
+                            <strong>Что понравилось:</strong><br>
+                            • Красивые цвета и звёзды<br>
+                            • Приятно управлять кораблём<br><br>
+                            <strong>Что не понравилось / баги:</strong><br>
+                            • Слишком быстро летят астероиды на 2-м уровне<br>
+                            • При столкновении с астероидом игра зависает на секунду<br>
+                            • Непонятно, сколько осталось времени<br><br>
+                            <strong>Идеи для улучшения:</strong><br>
+                            • Добавить таймер на экран<br>
+                            • Сделать астероиды чуть медленнее на старте
+                        </div>
+                    </div>
+
+                    <div class="task-input-area">
+                        <textarea id="testReport" placeholder="Напиши свой отчёт о тестировании&#10;&#10;Что понравилось: ...&#10;Что не понравилось / баги: ...&#10;Идеи для улучшения: ..."></textarea>
+
+                        <div class="task-buttons">
+                            <button class="btn-primary" id="analyzeTestBtn">📊 Показать разбор</button>
+                            <button class="btn-secondary" id="clearTestBtn">🗑️ Очистить</button>
+                            <button class="btn-secondary" id="exampleTestBtn">📋 Вставить пример</button>
+                        </div>
+
+                        <div class="task-result" id="testResult">
+                            <strong>✅ Отличный отчёт!</strong>
+                            <div id="testResultContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="footer">
+                🚀 Сделано для <a href="#">GitHub Pages</a> · Играй, тестируй, улучшай! 🎮
+            </div>
+
+        </div>
+    </div>
+
+    <script src="access.js"></script>
+
+    <script>
+        (function() {
+            // ===== ЧЕК-ЛИСТ =====
+            const checkboxes = document.querySelectorAll('.checklist .check-item input[type="checkbox"]');
+            const checkCount = document.getElementById('checkCount');
+            const resetBtn = document.getElementById('resetChecklist');
+
+            function updateCheckStats() {
+                const checked = document.querySelectorAll('.checklist .check-item input[type="checkbox"]:checked').length;
+                checkCount.textContent = checked;
+
+                document.querySelectorAll('.checklist .check-item').forEach(item => {
+                    const cb = item.querySelector('input[type="checkbox"]');
+                    if (cb.checked) {
+                        item.classList.add('checked');
+                    } else {
+                        item.classList.remove('checked');
+                    }
+                });
+            }
+
+            checkboxes.forEach(cb => {
+                cb.addEventListener('change', updateCheckStats);
+            });
+
+            resetBtn.addEventListener('click', function() {
+                checkboxes.forEach(cb => cb.checked = false);
+                updateCheckStats();
+            });
+
+            updateCheckStats();
+
+            // ===== ПРАКТИЧЕСКОЕ ЗАДАНИЕ =====
+            const testInput = document.getElementById('testReport');
+            const analyzeBtn = document.getElementById('analyzeTestBtn');
+            const clearTestBtn = document.getElementById('clearTestBtn');
+            const exampleTestBtn = document.getElementById('exampleTestBtn');
+            const testResult = document.getElementById('testResult');
+            const testResultContent = document.getElementById('testResultContent');
+
+            function analyzeTest() {
+                const text = testInput.value.trim();
+                if (!text) {
+                    testResult.classList.remove('active');
+                    return;
+                }
+
+                const hasLikes = text.match(/понравил|like|хорош|красив|крут|интересн|нравит/i);
+                const hasBugs = text.match(/баг|ошибк|завис|не работ|слом|глюк|проблем/i);
+                const hasIdeas = text.match(/иде|улучш|можно|добав|сделат/i);
+                const hasQuestions = text.match(/не понят|неясн|вопрос|почему|как/i);
+
+                let score = 0;
+                const details = [];
+
+                if (hasLikes) {
+                    score++;
+                    details.push('✅ Есть отзыв о том, что понравилось');
+                } else {
+                    details.push('❌ Нет отзыва о том, что понравилось');
+                }
+
+                if (hasBugs) {
+                    score++;
+                    details.push('✅ Описаны баги или проблемы');
+                } else {
+                    details.push('❌ Не описаны баги или проблемы');
+                }
+
+                if (hasIdeas) {
+                    score++;
+                    details.push('✅ Есть идеи для улучшения');
+                } else {
+                    details.push('❌ Нет идей для улучшения');
+                }
+
+                if (hasQuestions) {
+                    score++;
+                    details.push('✅ Есть вопросы по игре');
+                }
+
+                let grade = '🟡 Сыровато';
+                let comment = 'Попробуй добавить больше деталей. Что именно было непонятно? Какие баги нашёл?';
+
+                if (score >= 3) {
+                    grade = '🟢 Отлично!';
+                    comment = 'Хороший отчёт! Видно, что ты серьёзно подошёл к тестированию.';
+                } else if (score >= 2) {
+                    grade = '🟡 Неплохо';
+                    comment = 'Хороший старт! Добавь больше деталей о багах и идеях.';
+                }
+
+                const total = text.split('\n').filter(line => line.trim().length > 0).length;
+
+                const html = `
+                    <p>📝 <strong>Объём:</strong> ${total} строк</p>
+                    <p>📊 <strong>Оценка:</strong> ${grade}</p>
+                    <p>💬 <strong>Комментарий:</strong> ${comment}</p>
+                    <p style="margin-top:0.5rem; font-size:0.9rem; opacity:0.8;">
+                        📌 <strong>Что проверено:</strong>
+                    </p>
+                    <ul style="list-style:none; margin-top:0.3rem; font-size:0.9rem;">
+                        ${details.map(d => `<li style="color:#b6c8f0; padding:0.1rem 0;">${d}</li>`).join('')}
+                    </ul>
+                    <p style="margin-top:0.5rem; font-size:0.9rem; opacity:0.8;">
+                        💡 Чем больше деталей, тем легче будет исправить баги и улучшить игру!
+                    </p>
+                `;
+
+                testResultContent.innerHTML = html;
+                testResult.classList.add('active');
+            }
+
+            function clearTest() {
+                testInput.value = '';
+                testResult.classList.remove('active');
+            }
+
+            function insertExample() {
+                testInput.value = `Игра: «Космический сборщик»
+        Тестировщик: Маша Макарова
+
+        Что понравилось:
+        • Красивые цвета и звёзды
+        • Приятно управлять кораблём
+
+        Что не понравилось / баги:
+        • Слишком быстро летят астероиды на 2-м уровне
+        • При столкновении с астероидом игра зависает на секунду
+        • Непонятно, сколько осталось времени
+
+        Идеи для улучшения:
+        • Добавить таймер на экран
+        • Сделать астероиды чуть медленнее на старте`;
+                analyzeTest();
+            }
+
+            analyzeBtn.addEventListener('click', analyzeTest);
+            clearTestBtn.addEventListener('click', clearTest);
+            exampleTestBtn.addEventListener('click', insertExample);
+
+            let timeoutId;
+            testInput.addEventListener('input', function() {
+                clearTimeout(timeoutId);
+                timeoutId = setTimeout(analyzeTest, 500);
+            });
+
+            setTimeout(insertExample, 400);
+        })();
+    </script>
+</body>
+</html>
